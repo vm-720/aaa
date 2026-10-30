@@ -100,10 +100,9 @@ Source: westerncentralnyaaa.com (AAA Western & Central New York). The live site 
 - Every CTA carries `data-track` and pushes to `dataLayer`. Step and completion events (`join_step`, `finder_complete`, `lead_submit`, and so on) are ready for funnel reporting.
 - Sticky mobile CTA on each page, shown once the primary CTA scrolls away.
 
-## Before launch (required)
-1. **Endpoints:** set `CONFIG.endpoints.join / travelLead / insuranceLead`. Until then the forms run in demo mode (console only). Join must go through the club's PCI-compliant payment processor. Card fields are intentionally not submitted.
-2. **Testimonials and carrier list** are illustrative. Replace them with verified reviews and the current carrier list.
-3. Out-of-pocket cost estimates in the calculator should be checked against regional tow-rate data.
+## Notes
+- Forms run in demo mode (submissions are logged to the console) and testimonials are representative placeholders. Both are fine for this round. To go live, set `CONFIG.endpoints` in `assets/app.js`. Card fields are never submitted.
+- Out-of-pocket cost estimates in the calculator can be checked against regional tow-rate data.
 
 ## Suggested A/B tests
 - Membership hero: loss-framed headline vs benefit headline.
