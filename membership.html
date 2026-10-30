@@ -66,28 +66,29 @@
       <div>
         <span class="eyebrow">AAA Membership · Western &amp; Central NY</span>
         <h1>One tow without AAA can cost more than a whole year with it.</h1>
-        <p class="lead">Roadside rescue 24/7, member-only discounts, and a local club that's had your back for 125 years. Find your plan in 3 quick questions, or skip ahead and join.</p>
+        <p class="lead">Four free tows a year, hundreds of member-only discounts, free ProtectMyID® credit monitoring, and a local club that's had your back for 125 years. Find your plan in 3 quick questions, or skip ahead and join.</p>
         <div class="hero-ctas">
           <a class="btn btn-primary btn-lg" href="#finder" data-track="hero_finder">Find my plan in 30 seconds</a>
           <a class="btn btn-white btn-lg" href="join.html?plan=plus" data-track="hero_join">Join now</a>
         </div>
+        <p style="margin:14px 0 0"><a href="join.html?plan=plus&amp;gift=1" style="color:#fff;font-weight:700" data-track="hero_gift">🎁 Giving AAA as a gift? →</a></p>
         <div class="trust-row">
-          <span>Covered the moment you join*</span>
+          <span>Covered right after checkout</span>
           <span>Monthly payments available</span>
           <span>Help 24/7/365</span>
         </div>
       </div>
       <div class="card card-elevated hero-stat-card" id="hero-card">
-        <div class="small muted" style="font-weight:700;text-transform:uppercase;letter-spacing:.06em">A 40-mile tow on I-90</div>
+        <div class="small muted" style="font-weight:700;text-transform:uppercase;letter-spacing:.06em">One 100-mile tow</div>
         <div class="vs">
-          <div><span class="muted small">Without AAA</span><strong style="color:var(--red)">~$285</strong></div>
+          <div><span class="muted small">Without AAA</span><strong style="color:var(--red)">$388</strong></div>
           <div><span class="muted small">With AAA Plus</span><strong style="color:var(--blue)">$0</strong></div>
         </div>
         <div class="divider"></div>
-        <div class="num" data-perday="plus">27¢</div>
+        <div class="num" data-perday="plus">29¢</div>
         <div class="muted">per day for AAA Plus</div>
         <a class="btn btn-blue btn-block" style="margin-top:18px" href="#calculator" data-track="hero_calc">See what you'd save →</a>
-        <p class="small muted" style="margin:10px 0 0">Out-of-pocket figure is a typical regional estimate.</p>
+        <p class="small muted" style="margin:10px 0 0">Plus members get 4 tows a year, each up to 100 miles.</p>
       </div>
     </div>
   </section>
@@ -187,13 +188,13 @@
     <div class="container center">
       <span class="eyebrow">Compare plans</span>
       <h2>Pick your level of protection</h2>
-      <p class="lead">Every plan includes 4 roadside calls a year per member, plus every AAA discount.</p>
+      <p class="lead">Every plan includes 4 free tows a year per member, free credit monitoring, and every AAA discount.</p>
       <div class="billing-toggle" role="group" aria-label="Billing">
         <button type="button" class="on" data-billing="year">Pay yearly</button>
         <button type="button" data-billing="month">Pay monthly</button>
       </div>
       <div class="plans" id="plans-grid" style="text-align:left"></div>
-      <p class="small muted" style="margin-top:20px">Pricing based on Western &amp; Central NY ZIP codes; your exact price is confirmed at checkout. Monthly plans include a $1/month processing fee.</p>
+      <p class="small muted" style="margin-top:20px">Plus a one-time $20 enrollment fee for new members. Monthly plans include a $1/month processing fee. Your exact price is confirmed at checkout.</p>
     </div>
   </section>
 
@@ -203,7 +204,7 @@
       <div class="grid grid-4 center" style="margin-bottom:48px">
         <div class="stat"><strong>125</strong><span>years serving WNY &amp; CNY</span></div>
         <div class="stat"><strong>24/7</strong><span>roadside help, every day of the year</span></div>
-        <div class="stat"><strong>4</strong><span>service calls per member, per year</span></div>
+        <div class="stat"><strong>4</strong><span>free tows per member, per year</span></div>
         <div class="stat"><strong>$0</strong><span>out of pocket for covered services</span></div>
       </div>
       <div class="grid grid-3">
@@ -224,6 +225,7 @@
         <details><summary>Does it cover me or my car?</summary><p>You. Your membership follows you in any car, as driver or passenger, even a friend's or a rental.</p></details>
         <details><summary>Can I add my spouse, kids, or parents?</summary><p>Yes. Add associate members in your household at a reduced price. Each associate gets their own 4 roadside calls per year, at the same level as the primary member.</p></details>
         <details><summary>Can I pay monthly?</summary><p>Yes. Split your dues into monthly installments charged automatically to your card ($1/month processing fee), or pay once for the year.</p></details>
+        <details><summary>Can I give AAA as a gift?</summary><p>Yes. Choose "This is a gift" at checkout and we'll send the recipient their membership on the date you pick.</p></details>
         <details><summary>Can I upgrade later?</summary><p>Yes. You can change your membership level after you join. Call us or manage it online.</p></details>
       </div>
       <div class="center" style="margin-top:36px">
@@ -233,7 +235,7 @@
   </section>
 
   <div class="sticky-cta" id="sticky">
-    <div class="sticky-text">AAA <span id="sticky-plan">Plus</span> from <span id="sticky-price">27¢/day</span><small>Roadside help 24/7</small></div>
+    <div class="sticky-text">AAA <span id="sticky-plan">Plus</span> from <span id="sticky-price">29¢/day</span><small>Roadside help 24/7</small></div>
     <a class="btn btn-primary btn-sm" id="sticky-cta" href="join.html?plan=plus" data-track="sticky_join">Join now</a>
   </div>
 
@@ -254,8 +256,8 @@
       { id: "lock", ico: "🔑", name: "Locked keys in the car", cost: 95 },
       { id: "fuel", ico: "⛽", name: "Ran out of gas", cost: 80 },
       { id: "towShort", ico: "🚚", name: "Local tow (under 5 miles)", cost: 125 },
-      { id: "towMid", ico: "🛣️", name: "Tow to my mechanic (~40 mi)", cost: 285, needsMiles: 40 },
-      { id: "towLong", ico: "🏔️", name: "Long tow from a road trip (~150 mi)", cost: 725, needsMiles: 150 },
+      { id: "towMid", ico: "🛣️", name: "Tow to my mechanic (up to 100 mi)", cost: CONFIG.towWithoutAAA, needsMiles: 100 },
+      { id: "towLong", ico: "🏔️", name: "Long tow from a road trip (~150 mi)", cost: 580, needsMiles: 150 },
       { id: "hotel", ico: "🏨", name: "Hotel nights booked", cost: 18, discount: true, note: "Typical member rate savings per night" },
     ];
     const counts = Object.fromEntries(EVENTS.map((e) => [e.id, 0]));

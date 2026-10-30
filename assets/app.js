@@ -1,10 +1,9 @@
 /*
  * Shared config + helpers for the conversion-focused redesign pages.
  *
- * IMPORTANT: Dues in CONFIG.plans are PLACEHOLDERS. AAA Western & Central NY
- * prices by ZIP code, so wire `getPlanPrice` to the real rating service (or
- * replace the numbers) before launch. Everything that displays a price reads
- * from here, so this is the only place to change.
+ * Plan dues, the enrollment fee and the $388 tow figure come from the live
+ * westerncentralnyaaa.com join page. Associate and RV/Motorcycle add-on prices
+ * are still PLACEHOLDERS. Everything that displays a price reads from here.
  */
 window.AAA = (function () {
   const CONFIG = {
@@ -20,55 +19,58 @@ window.AAA = (function () {
     },
     // Hand-off to the existing official join flow until a real checkout endpoint exists.
     officialJoinUrl: "https://westerncentralnyaaa.com/membership/join",
-    // Associate dues + one-time enrollment fee. PLACEHOLDERS.
-    associatePrice: { basic: 35, plus: 45, premier: 65 },
-    enrollmentFee: 15,
+    // Cost of one 100-mile tow without AAA, as cited on the live join page.
+    towWithoutAAA: 388,
+    associatePrice: { basic: 35, plus: 45, premier: 65 }, // PLACEHOLDER
+    rvAddon: 30, // PLACEHOLDER (RV/Motorcycle coverage, Plus & Premier only)
+    enrollmentFee: 20,
     monthlyFee: 1, // $1/mo processing fee on monthly plan (per club's payment-options page)
     plans: {
       basic: {
         name: "Basic",
-        price: 69, // PLACEHOLDER
+        price: 65,
         tagline: "Around-town peace of mind",
-        tow: "Tows up to 5 miles",
+        tow: "4 tows/yr up to 5 miles",
         towMiles: 5,
         features: [
-          "4 roadside calls / year",
-          "Towing up to 5 miles",
+          "4 free tows / year (up to 5 miles)",
           "Battery jump & flat-tire change",
           "Lockout service",
           "Fuel delivery",
-          "All member discounts & travel perks",
+          "Free ProtectMyID® credit monitoring",
+          "Hundreds of member-only discounts",
         ],
-        missing: ["Long-distance towing", "Free rental car day"],
+        missing: ["Long-distance towing", "Road trip interruption protection"],
       },
       plus: {
         name: "Plus",
-        price: 99, // PLACEHOLDER
+        price: 105,
         tagline: "Road trips & daily commutes",
-        tow: "Tows up to 100 miles",
+        tow: "4 tows/yr up to 100 miles",
         towMiles: 100,
         popular: true,
         features: [
-          "4 roadside calls / year",
-          "Towing up to 100 miles",
-          "Battery, tire, lockout & fuel",
-          "Higher lockout & locksmith coverage",
-          "All member discounts & travel perks",
+          "4 free tows / year (up to 100 miles each)",
+          "2nd truck for extrication & winching",
+          "Free fuel delivery (fuel included)",
+          "Lockout service up to $100",
+          "Road trip interruption protection up to $350",
+          "Optional RV & Motorcycle coverage",
+          "Everything in Basic",
         ],
         missing: ["200-mile tow", "Free rental car day"],
       },
       premier: {
         name: "Premier",
-        price: 134, // PLACEHOLDER
+        price: 140,
         tagline: "Maximum coverage, every mile",
         tow: "One tow up to 200 miles",
         towMiles: 200,
         features: [
-          "4 roadside calls / year",
-          "One tow up to 200 miles + 100-mile tows",
+          "4 free tows / year: one up to 200 miles, the rest up to 100",
           "Free 1-day rental car after a local breakdown",
-          "Battery, tire, lockout & fuel",
-          "All member discounts & travel perks",
+          "Optional RV & Motorcycle coverage",
+          "Everything in Plus",
         ],
         missing: [],
       },

@@ -1,6 +1,6 @@
 # Conversion Review: Membership, Join, Travel, Insurance
 
-Source: westerncentralnyaaa.com (AAA Western & Central New York). The live site was blocked from the build environment, so this review is based on the site's search-indexed content: tier and towing terms, payment options, the insurance quote page, travel agency pages and the membership terms.
+Source: westerncentralnyaaa.com (AAA Western & Central New York). The live site was blocked from the build environment, so this review is based on the site's search-indexed content plus screenshots of the live join page supplied by the client (prices: Basic $65, Plus $105, Premier $140, plus a $20 enrollment fee; the "$388 for one 100-mile tow" claim; Plus benefits).
 
 ---
 
@@ -17,7 +17,7 @@ Source: westerncentralnyaaa.com (AAA Western & Central New York). The live site 
 **What changed**
 | Change | Why it converts |
 |---|---|
-| Hero leads with the pain: *"One tow without AAA can cost more than a whole year with it."* Side card shows a 40-mile tow at ~$285 vs $0. | Loss framing converts better than a benefit list. |
+| Hero leads with the pain: *"One tow without AAA can cost more than a whole year with it."* The club's own **$388 for a 100-mile tow** figure moves from buried body copy into a hero card: $388 vs $0, and 29¢/day for Plus. | Loss framing converts better than a benefit list. |
 | **Breakdown math calculator:** visitors tap in jumps, flats, lockouts and tows. It shows live savings and recommends a tier. Starts prefilled so the number isn't $0. | Personal, concrete ROI. Interacting with it builds commitment. |
 | **3-question plan finder** (distance, vehicle age, priority) that auto-advances, then gives one recommendation with a deep link to `join.html?plan=…`. | Removes the choice problem and ends in a single CTA. |
 | Plan cards show **cents per day**, have a yearly/monthly toggle, and carry "Recommended for you" after the quiz. | Price anchoring. Monthly lowers the barrier to entry. |
@@ -28,10 +28,15 @@ Source: westerncentralnyaaa.com (AAA Western & Central New York). The live site 
 
 **Goal:** Complete enrollment with as little drop-off as possible.
 
-**What holds it back today**
-- Visitors arrive without a plan picked and have to choose again.
-- No running total, so the price can surprise them at the end.
-- Associates (household members) are an upsell opportunity buried in the flow.
+**What the live page does today** (from screenshots)
+- Full-width lifestyle photo, then a card: *"Membership pays for itself every year."*
+- The strongest proof point (**one 100-mile tow = $388 without AAA, members get 4 free tows**) is buried mid-paragraph in light grey body text.
+- **Join Now** and **Gift a Membership** are equal-weight outlined buttons. Neither stands out, and gifting competes with the main action.
+- Tiers are **tabs**, so only one plan's benefits show at a time. Comparing means clicking back and forth. Plus defaults to "Best Value" (good).
+- Benefits read *"All AAA Basic features, and…"*, which makes visitors remember what Basic includes.
+- The **$20 enrollment fee** sits under the price with a red "+", so it reads like a penalty.
+- **Add household members** and **Add RV/Motorcycle** toggles show no price, and the total doesn't update visibly before checkout.
+- The CTA ("GO PLUS") is vague about what happens next. The header gives Join and Renew equal weight.
 
 **What changed**
 | Change | Why it converts |
@@ -43,6 +48,10 @@ Source: westerncentralnyaaa.com (AAA Western & Central New York). The live site 
 | **"I need roadside help right now"** fast path, with the service fee disclosed. | Captures the highest-intent visitors (people stranded right now). |
 | Monthly vs yearly at payment, auto-renew on by default, ZIP territory soft check. | Lower upfront cost and better retention. |
 | **Draft autosave** (localStorage) and a "Prefer to join by phone?" fallback. | Recovers people who leave and people who'd rather call. |
+| **Gift built into the flow** ("🎁 This is a gift" toggle → purchaser details, delivery date, message). On Membership, gifting is a quiet text link (`join.html?gift=1`) instead of a competing button. | Keeps gifting available without splitting attention at the main CTA. |
+| **RV & Motorcycle add-on** shown with its price, turned off for Basic ("Available with Plus or Premier"), and added to the live total. | No hidden costs, and an upsell visitors can see. |
+| Every plan's tow benefit shown side by side on the plan tiles. Enrollment fee shown as a normal line item in the summary, not a red "+". | Easy comparison and no penalty framing. |
+| Specific CTA copy: "Join for $125" / "Send gift for $155". | Visitors know exactly what happens and what it costs. |
 | Success screen with a digital card preview and cross-sell to an insurance quote. | Turns the thank-you page into the next conversion. |
 
 ## 3. Travel
@@ -92,7 +101,7 @@ Source: westerncentralnyaaa.com (AAA Western & Central New York). The live site 
 - Sticky mobile CTA on each page, shown once the primary CTA scrolls away.
 
 ## Before launch (required)
-1. **Prices:** `assets/app.js → CONFIG.plans / associatePrice / enrollmentFee` are **placeholders**. Wire `getPlanPrice()` to real ZIP-based dues.
+1. **Prices:** plan dues ($65 / $105 / $140), the $20 enrollment fee and the $388 tow figure come from the live join page. `associatePrice` and `rvAddon` in `assets/app.js` are still **placeholders**. If dues vary by ZIP, wire `getPlanPrice()` to the rating service.
 2. **Endpoints:** set `CONFIG.endpoints.join / travelLead / insuranceLead`. Until then the forms run in demo mode (console only). Join must go through the club's PCI-compliant payment processor. Card fields are intentionally not submitted.
 3. **Testimonials and carrier list** are illustrative. Replace them with verified reviews and the current carrier list.
 4. Out-of-pocket cost estimates in the calculator should be checked against regional tow-rate data.

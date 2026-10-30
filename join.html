@@ -87,7 +87,15 @@
             <div class="error-msg">Enter a 5-digit ZIP code.</div>
           </div>
           <div class="notice" id="zip-notice" style="display:none">That ZIP looks like it may be outside Western &amp; Central NY. You can still continue, or <a href="https://www.aaa.com/stop" target="_blank" rel="noopener">find your local AAA club</a>.</div>
+          <label class="toggle-line" id="rv-line">
+            <input type="checkbox" name="rv" id="rv" value="yes">
+            <span><strong>Add RV &amp; Motorcycle coverage <span class="muted" id="rv-price">+$30/yr</span></strong><span class="small muted" id="rv-sub">Extends your roadside benefits to your RV, camper, trailer or motorcycle.</span></span>
+          </label>
           <label class="toggle-line">
+            <input type="checkbox" name="gift" id="gift" value="yes">
+            <span><strong>🎁 This is a gift</strong><span class="small muted">Perfect for new drivers, college students and parents. We'll deliver it on the date you choose.</span></span>
+          </label>
+          <label class="toggle-line" id="need-line">
             <input type="checkbox" name="needNow" id="needNow" value="yes">
             <span><strong>I need roadside help right now</strong><span class="small muted">We'll get you covered first. A one-time service fee applies, and service at enrollment is provided at the Basic level.</span></span>
           </label>
@@ -96,7 +104,19 @@
 
         <!-- STEP 2: member + household -->
         <div class="wizard-step" data-step="1">
-          <h2 style="font-size:1.4rem">Who's getting covered?</h2>
+          <div id="gift-block" style="display:none">
+            <h2 style="font-size:1.4rem">From you</h2>
+            <div class="field-row">
+              <div class="field"><label for="giverName">Your name</label><input type="text" id="giverName" name="giverName" autocomplete="name" data-gift-required><div class="error-msg">Required</div></div>
+              <div class="field"><label for="giverEmail">Your email (for the receipt)</label><input type="email" id="giverEmail" name="giverEmail" autocomplete="email" data-gift-required><div class="error-msg">Enter a valid email.</div></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label for="giftDate">Deliver the gift on</label><input type="date" id="giftDate" name="giftDate" data-gift-required><div class="error-msg">Pick a date.</div></div>
+              <div class="field"><label for="giftMsg">Gift message <span class="muted">(optional)</span></label><input type="text" id="giftMsg" name="giftMsg" maxlength="140" placeholder="Drive safe! Love, Mom"></div>
+            </div>
+            <div class="divider"></div>
+          </div>
+          <h2 style="font-size:1.4rem" id="member-heading">Who's getting covered?</h2>
           <div class="field-row">
             <div class="field"><label for="first">First name</label><input type="text" id="first" name="first" autocomplete="given-name" required><div class="error-msg">Required</div></div>
             <div class="field"><label for="last">Last name</label><input type="text" id="last" name="last" autocomplete="family-name" required><div class="error-msg">Required</div></div>
@@ -113,7 +133,7 @@
 
           <div class="divider"></div>
           <h3>Add your household <span class="badge badge-green">Save vs. separate memberships</span></h3>
-          <p class="muted small">Each household member gets their own 4 roadside calls, in any car. Perfect for teen drivers and college students.</p>
+          <p class="muted small">Each household member gets their own 4 free tows a year, in any car. Perfect for teen drivers and college students.</p>
           <div id="assoc-list"></div>
           <button type="button" class="add-assoc" id="add-assoc">+ Add a household member (<span id="assoc-price">$45</span>/yr)</button>
 
@@ -151,8 +171,8 @@
         <div class="wizard-step" data-step="3">
           <div class="success">
             <div class="check">✓</div>
-            <h2>Welcome to AAA, <span id="welcome-name">friend</span>!</h2>
-            <p class="lead" style="margin-inline:auto">You're covered. Your digital card is below and on its way to your inbox.</p>
+            <h2 id="success-title">Welcome to AAA, <span id="welcome-name">friend</span>!</h2>
+            <p class="lead" style="margin-inline:auto" id="success-lead">You're covered. Your digital card is below and on its way to your inbox.</p>
             <div class="member-card">
               <div style="display:flex;justify-content:space-between"><strong style="font-style:italic;font-size:1.3rem">AAA</strong><span id="card-plan">PLUS</span></div>
               <div class="num">620084 •••• •••• ••••</div>
@@ -213,6 +233,7 @@
     if (startPlan && plans[startPlan]) $(`input[name=plan][value=${startPlan}]`).checked = true;
     else if (!$("input[name=plan]:checked")) $("input[name=plan][value=plus]").checked = true;
     if (params.get("billing") === "month") $("input[name=billing][value=month]").checked = true;
+    if (params.get("gift")) $("#gift").checked = true;
 
     // Household members
     let assocCount = 0;
@@ -235,21 +256,39 @@
     function plan() { return $("input[name=plan]:checked")?.value || "plus"; }
     function billing() { return $("input[name=billing]:checked")?.value || "year"; }
 
+    function gift() { return $("#gift").checked; }
+    // RV/Motorcycle coverage is only offered on Plus and Premier.
+    function rvOn() { return plan() !== "basic" && $("#rv").checked; }
+
     function totals() {
       const k = plan();
       const base = plans[k].price;
       const assoc = assocCount * CONFIG.associatePrice[k];
       const fee = CONFIG.enrollmentFee;
-      const annual = base + assoc;
+      const rv = rvOn() ? CONFIG.rvAddon : 0;
+      const annual = base + assoc + rv;
       const monthly = annual / 12 + CONFIG.monthlyFee;
-      return { k, base, assoc, fee, annual, monthly, today: billing() === "year" ? annual + fee : monthly + fee };
+      return { k, base, assoc, rv, fee, annual, monthly, today: billing() === "year" ? annual + fee : monthly + fee };
     }
 
     function update() {
       const t = totals();
       $("#assoc-price").textContent = money(CONFIG.associatePrice[t.k]);
+      const basic = t.k === "basic";
+      $("#rv").disabled = basic;
+      $("#rv-line").style.opacity = basic ? ".55" : "";
+      $("#rv-price").textContent = basic ? "" : `+${money(CONFIG.rvAddon)}/yr`;
+      $("#rv-sub").textContent = basic ? "Available with Plus or Premier." : "Extends your roadside benefits to your RV, camper, trailer or motorcycle.";
+      // Gift mode: purchaser details appear, the member section becomes the recipient,
+      // and the "need help now" fast path no longer applies.
+      $("#gift-block").style.display = gift() ? "" : "none";
+      $$("[data-gift-required]").forEach((el) => (el.required = gift()));
+      $("#member-heading").textContent = gift() ? "Who's receiving the gift?" : "Who's getting covered?";
+      $("#need-line").style.display = gift() ? "none" : "";
+      if (gift()) $("#needNow").checked = false;
       $("#sum-lines").innerHTML = `
-        <div class="sum-row"><span>AAA ${plans[t.k].name} · primary</span><span>${money(t.base)}/yr</span></div>
+        <div class="sum-row"><span>AAA ${plans[t.k].name} · ${gift() ? "gift" : "primary"}</span><span>${money(t.base)}/yr</span></div>
+        ${t.rv ? `<div class="sum-row"><span>RV &amp; Motorcycle coverage</span><span>${money(t.rv)}/yr</span></div>` : ""}
         ${assocCount ? `<div class="sum-row"><span>${assocCount} household member${assocCount > 1 ? "s" : ""}</span><span>${money(t.assoc)}/yr</span></div>` : ""}
         <div class="sum-row"><span>One-time enrollment fee</span><span>${money(t.fee)}</span></div>
         ${billing() === "month" ? `<div class="sum-row muted"><span>Monthly plan (incl. $1 processing)</span><span>${money(t.monthly, true)}/mo</span></div>` : ""}`;
@@ -258,7 +297,7 @@
       $("#sum-sub").textContent = billing() === "month" ? `Then ${money(t.monthly, true)}/month` : `Just ${Math.round((t.annual / 365) * 100)}¢ a day`;
       $("#bill-year").textContent = money(t.annual + t.fee) + " today";
       $("#bill-month").textContent = money(t.monthly, true) + "/mo";
-      $("#pay-btn").textContent = `Join for ${today}`;
+      $("#pay-btn").textContent = gift() ? `Send gift for ${today}` : `Join for ${today}`;
     }
     form.addEventListener("change", update);
 
@@ -290,12 +329,16 @@
       try {
         await AAA.submitLead("join", { ...data, totals: totals() });
         try { localStorage.removeItem("aaa_join_draft"); } catch (_) {}
+        if (gift()) {
+          $("#success-title").textContent = `Gift sent to ${data.first}!`;
+          $("#success-lead").textContent = `${data.first} will receive their AAA ${plans[plan()].name} membership on ${new Date(data.giftDate + "T12:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}. Your receipt is on its way to ${data.giverEmail}.`;
+        }
         $("#welcome-name").textContent = data.first || "friend";
         $("#card-name").textContent = `${data.first} ${data.last}`.toUpperCase();
         $("#card-plan").textContent = plans[plan()].name.toUpperCase();
         $("#stepper-head").style.display = "none";
         showStep(3);
-        AAA.track("join_complete", { plan: plan(), associates: assocCount, billing: billing() });
+        AAA.track("join_complete", { plan: plan(), associates: assocCount, billing: billing(), gift: gift(), rv: rvOn() });
       } catch (err) {
         btn.disabled = false; update();
         AAA.toast("Something went wrong. Please try again or call (800) 836-2582.");
