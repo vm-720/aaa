@@ -48,7 +48,7 @@ Source: westerncentralnyaaa.com (AAA Western & Central New York). The live site 
 | **"I need roadside help right now"** fast path, with the service fee disclosed. | Captures the highest-intent visitors (people stranded right now). |
 | Monthly vs yearly at payment, auto-renew on by default, ZIP territory soft check. | Lower upfront cost and better retention. |
 | **Draft autosave** (localStorage) and a "Prefer to join by phone?" fallback. | Recovers people who leave and people who'd rather call. |
-| **Gift built into the flow** ("🎁 This is a gift" toggle → purchaser details, delivery date, message). On Membership, gifting is a quiet text link (`join.html?gift=1`) instead of a competing button. | Keeps gifting available without splitting attention at the main CTA. |
+| **Gift built into the flow** ("This is a gift" toggle → purchaser details, delivery date, message). On Membership, gifting is a quiet text link (`join.html?gift=1`) instead of a competing button. | Keeps gifting available without splitting attention at the main CTA. |
 | **RV & Motorcycle add-on** shown with its price, turned off for Basic ("Available with Plus or Premier"), and added to the live total. | No hidden costs, and an upsell visitors can see. |
 | Every plan's tow benefit shown side by side on the plan tiles. Enrollment fee shown as a normal line item in the summary, not a red "+". | Easy comparison and no penalty framing. |
 | Specific CTA copy: "Join for $125" / "Send gift for $155". | Visitors know exactly what happens and what it costs. |
