@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AAA Insurance | One Call. Multiple Carriers. Your Best Rate.</title>
+  <meta name="description" content="AAA is an independent agency: we shop multiple top carriers for you. Start a free auto, home or bundle quote in 60 seconds, or pick a time for a local agent to call.">
+  <link rel="stylesheet" href="assets/styles.css">
+  <style>
+    .hero.ins { background: linear-gradient(135deg, #0b3d91 0%, #082f72 60%, #0a2a5c 100%); }
+    .quote-card { padding: 28px; }
+    .quote-card h2 { font-size: 1.45rem; }
+    .what { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    @media (max-width: 480px) { .what { grid-template-columns: repeat(2, 1fr); } }
+    .what .choice > span { min-height: 86px; }
+    .bundle-hint { display: none; margin-top: 12px; }
+    .bundle-hint.show { display: block; animation: fadeIn .25s; }
+
+    .carriers { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .carriers span { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 14px 22px; font-weight: 800; color: var(--muted); letter-spacing: .02em; }
+
+    .shop { display: grid; grid-template-columns: 1fr auto 1fr; gap: 24px; align-items: center; }
+    @media (max-width: 820px) { .shop { grid-template-columns: 1fr; } .shop .arrow { transform: rotate(90deg); justify-self: center; } }
+    .shop .arrow { font-size: 2.4rem; color: var(--red); font-weight: 800; }
+    .carrier-quotes .row { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-radius: 10px; margin-bottom: 8px; background: var(--bg-alt); font-weight: 600; }
+    .carrier-quotes .row.best { background: var(--green-light); color: var(--green); border: 1.5px solid var(--green); }
+
+    .products { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    @media (max-width: 820px) { .products { grid-template-columns: repeat(2, 1fr); } }
+    .product { text-align: center; padding: 20px 14px; cursor: pointer; transition: border-color .15s, transform .15s; }
+    .product:hover { border-color: var(--blue); transform: translateY(-2px); }
+    .product .ico { font-size: 2rem; }
+    .product strong { display: block; margin-top: 6px; }
+
+    .slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .slots .choice > span { min-height: 46px; font-size: .9rem; }
+    .done-box { text-align: center; }
+    .done-box .check { width: 70px; height: 70px; border-radius: 50%; background: var(--green-light); color: var(--green); font-size: 2.2rem; display: grid; place-items: center; margin: 0 auto 14px; }
+    .switch-list li { margin-bottom: 14px; }
+  </style>
+</head>
+<body>
+  <script src="assets/app.js"></script>
+  <script>AAA.mountChrome("Insurance");</script>
+
+  <!-- HERO: lead with the differentiator (independent agency that shops carriers), quote starts in hero -->
+  <section class="hero ins">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">AAA Insurance · Independent agency</span>
+        <h1>Stop shopping for insurance. We'll shop for you.</h1>
+        <p class="lead">One quick form, multiple top-rated carriers compared side-by-side by a local AAA agent. Bundle home and auto and you could save up to 25%.</p>
+        <div class="trust-row">
+          <span>Free, no-obligation quotes</span>
+          <span>Multiple carriers, one agent</span>
+          <span>Local claims advocacy</span>
+        </div>
+        <p style="margin-top:22px;color:rgba(255,255,255,.85)">Rather talk now? <a href="tel:8886717044" style="color:#fff;font-weight:800" data-track="ins_hero_phone">📞 (888) 671-7044</a></p>
+      </div>
+
+      <div class="card card-elevated quote-card" id="quote">
+        <form id="ins-form" novalidate>
+          <div class="progress" aria-hidden="true"><div class="step done"></div><div class="step"></div><div class="step"></div></div>
+
+          <div class="wizard-step active" data-step="0">
+            <h2>What do you want to save on?</h2>
+            <p class="muted small" style="margin-top:-4px">Pick all that apply.</p>
+            <div class="field">
+              <div class="what" id="what">
+                <label class="choice"><input type="checkbox" name="lines" value="Auto"><span><span class="ico">🚗</span>Auto</span></label>
+                <label class="choice"><input type="checkbox" name="lines" value="Home"><span><span class="ico">🏠</span>Home</span></label>
+                <label class="choice"><input type="checkbox" name="lines" value="Renters"><span><span class="ico">🔑</span>Renters</span></label>
+                <label class="choice"><input type="checkbox" name="lines" value="Life"><span><span class="ico">❤️</span>Life</span></label>
+                <label class="choice"><input type="checkbox" name="lines" value="Motorcycle / RV"><span><span class="ico">🏍️</span>Moto / RV</span></label>
+                <label class="choice"><input type="checkbox" name="lines" value="Medicare"><span><span class="ico">🩺</span>Medicare</span></label>
+              </div>
+              <div class="error-msg">Pick at least one.</div>
+            </div>
+            <div class="highlight-box bundle-hint" id="bundle-hint">🎉 Nice! Bundling auto + home is where members typically save the most, up to 25%.</div>
+            <div class="field" style="margin-top:16px">
+              <label for="i-zip">ZIP code</label>
+              <input type="text" id="i-zip" name="zip" inputmode="numeric" maxlength="5" required data-zip placeholder="e.g. 13202">
+              <div class="error-msg">Enter a 5-digit ZIP.</div>
+            </div>
+            <button type="button" class="btn btn-primary btn-lg btn-block" data-next>Compare my rates →</button>
+            <p class="small muted center" style="margin:10px 0 0">Takes about 60 seconds. Won't affect your credit to start.</p>
+          </div>
+
+          <div class="wizard-step" data-step="1">
+            <h2>A few quick details</h2>
+            <div class="field">
+              <label>Current situation</label>
+              <div class="choices" data-required-group style="grid-template-columns:1fr 1fr">
+                <label class="choice"><input type="radio" name="current" value="Insured, renewal coming up"><span style="min-height:56px">Renewal coming up</span></label>
+                <label class="choice"><input type="radio" name="current" value="Insured, just checking rates"><span style="min-height:56px">Just checking rates</span></label>
+                <label class="choice"><input type="radio" name="current" value="New car or home"><span style="min-height:56px">New car or home</span></label>
+                <label class="choice"><input type="radio" name="current" value="Not currently insured"><span style="min-height:56px">Not insured now</span></label>
+              </div>
+              <div class="error-msg">Pick one.</div>
+            </div>
+            <div class="field">
+              <label for="i-renew">When does your current policy renew? <span class="muted">(optional)</span></label>
+              <select id="i-renew" name="renewal"><option value="">Not sure</option><option>This month</option><option>1–2 months</option><option>3–6 months</option><option>6+ months</option></select>
+            </div>
+            <label style="display:flex;gap:8px;font-weight:500;font-size:.9rem"><input type="checkbox" name="isMember" value="yes"> I'm a AAA member</label>
+            <div class="wizard-nav"><button type="button" class="btn btn-ghost" data-back>← Back</button><button type="button" class="btn btn-primary" data-next>Almost done →</button></div>
+          </div>
+
+          <div class="wizard-step" data-step="2">
+            <h2>Where should we send your quotes?</h2>
+            <div class="field-row">
+              <div class="field"><label for="i-name">Full name</label><input type="text" id="i-name" name="name" autocomplete="name" required><div class="error-msg">Required</div></div>
+              <div class="field"><label for="i-phone">Phone</label><input type="tel" id="i-phone" name="phone" autocomplete="tel" required><div class="error-msg">10-digit phone</div></div>
+            </div>
+            <div class="field"><label for="i-email">Email</label><input type="email" id="i-email" name="email" autocomplete="email" required><div class="error-msg">Valid email</div></div>
+            <div class="field">
+              <label>Best time for a quick call from your agent</label>
+              <div class="slots">
+                <label class="choice"><input type="radio" name="callTime" value="Morning" checked><span>🌅 Morning</span></label>
+                <label class="choice"><input type="radio" name="callTime" value="Afternoon"><span>☀️ Afternoon</span></label>
+                <label class="choice"><input type="radio" name="callTime" value="Email only"><span>✉️ Email only</span></label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="ins-submit">Get my free quotes</button>
+            <div class="wizard-nav" style="margin-top:10px"><button type="button" class="btn btn-ghost btn-sm" data-back>← Back</button><span class="small muted" style="align-self:center">No spam. No obligation.</span></div>
+          </div>
+
+          <div class="wizard-step" data-step="3">
+            <div class="done-box">
+              <div class="check">✓</div>
+              <h2>We're on it, <span id="i-first"></span>.</h2>
+              <p class="muted">A licensed AAA agent is comparing <strong id="i-lines"></strong> rates across our carriers and will reach out <span id="i-when"></span>.</p>
+              <div class="highlight-box" style="text-align:left" id="i-upsell">Tip: AAA members can unlock additional insurance discounts. <a href="join.html?from=insurance">Join AAA →</a></div>
+              <p class="small muted" style="margin-top:14px">Want it faster? Call <a href="tel:8886717044">(888) 671-7044</a>.</p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW SHOPPING WORKS: visualize the "we shop for you" promise -->
+  <section class="section">
+    <div class="container">
+      <div class="center" style="margin-bottom:40px">
+        <span class="eyebrow">The AAA advantage</span>
+        <h2>One form in. The best rate out.</h2>
+        <p class="lead">Captive agents can only sell one company's policy. As an independent agency, AAA compares several and shows you the winner.</p>
+      </div>
+      <div class="shop">
+        <div class="card">
+          <h3>You tell us once</h3>
+          <ul class="checklist">
+            <li>Your cars, home and drivers</li>
+            <li>The coverage you actually need</li>
+            <li>Your budget and deductible comfort</li>
+          </ul>
+        </div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div class="card carrier-quotes">
+          <h3>We compare carriers</h3>
+          <div class="row"><span>Carrier A</span><span>$$$</span></div>
+          <div class="row"><span>Carrier B</span><span>$$$</span></div>
+          <div class="row best"><span>✓ Your best match</span><span>$$</span></div>
+          <div class="row"><span>Carrier D</span><span>$$$</span></div>
+        </div>
+      </div>
+      <p class="center muted" style="margin-top:36px;font-weight:700">Carriers we work with include</p>
+      <div class="carriers">
+        <span>AAA Insurance</span><span>NYCM</span><span>Progressive</span><span>Plymouth Rock</span><span>Travelers</span><span>+ more</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS: each tile pre-selects that line in the quote form -->
+  <section class="section alt">
+    <div class="container">
+      <h2 class="center">Coverage for everything that matters</h2>
+      <p class="lead center" style="margin-bottom:32px">Tap one to start a quote.</p>
+      <div class="products" id="products">
+        <div class="card product" data-line="Auto" role="button" tabindex="0"><div class="ico">🚗</div><strong>Auto</strong><span class="small muted">Accident forgiveness options</span></div>
+        <div class="card product" data-line="Home" role="button" tabindex="0"><div class="ico">🏠</div><strong>Home</strong><span class="small muted">Built for lake-effect winters</span></div>
+        <div class="card product" data-line="Auto,Home" role="button" tabindex="0"><div class="ico">🎁</div><strong>Bundle</strong><span class="small muted">Save up to 25%</span></div>
+        <div class="card product" data-line="Renters" role="button" tabindex="0"><div class="ico">🔑</div><strong>Renters</strong><span class="small muted">Often less than $1/day</span></div>
+        <div class="card product" data-line="Life" role="button" tabindex="0"><div class="ico">❤️</div><strong>Life</strong><span class="small muted">Protect your family</span></div>
+        <div class="card product" data-line="Motorcycle / RV" role="button" tabindex="0"><div class="ico">🏍️</div><strong>Motorcycle &amp; RV</strong><span class="small muted">For the open road</span></div>
+        <div class="card product" data-line="Medicare" role="button" tabindex="0"><div class="ico">🩺</div><strong>Medicare</strong><span class="small muted">Plan comparison help</span></div>
+        <a class="card product" href="tel:8886717044" style="text-decoration:none;color:inherit"><div class="ico">🏢</div><strong>Business</strong><span class="small muted">Call to talk commercial</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SWITCHING FEAR: the #1 reason people don't change insurance -->
+  <section class="section">
+    <div class="container grid grid-2" style="align-items:center;gap:48px">
+      <div>
+        <span class="eyebrow">Switching is easy</span>
+        <h2>Worried switching is a hassle? We do the heavy lifting.</h2>
+        <ul class="checklist switch-list">
+          <li><strong>We time it to your renewal</strong> so there's no gap and no cancellation fee surprise.</li>
+          <li><strong>We handle the paperwork</strong>, including cancelling your old policy.</li>
+          <li><strong>We stay with you at claim time.</strong> Your local agent advocates for you.</li>
+          <li><strong>We re-shop at renewal</strong> so your rate stays competitive.</li>
+        </ul>
+        <a class="btn btn-primary btn-lg" href="#quote" data-track="ins_switch_cta" style="margin-top:12px">See if I can save</a>
+      </div>
+      <div class="grid" style="gap:16px">
+        <blockquote class="card quote"><div class="stars">★★★★★</div>"My agent found me the same coverage for less by switching carriers. Ten minutes on the phone."<footer>— Policyholder, Tonawanda</footer></blockquote>
+        <blockquote class="card quote"><div class="stars">★★★★★</div>"After the ice storm, having a local agent who picked up the phone made all the difference."<footer>— Policyholder, Fairport</footer></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container" style="max-width:820px">
+      <h2 class="center">Common questions</h2>
+      <div class="faq">
+        <details><summary>Do I have to be a AAA member to get a quote?</summary><p>No. Anyone can get a quote. Members may qualify for additional discounts.</p></details>
+        <details><summary>Is insurance included in my AAA membership?</summary><p>No. Insurance is separate from membership dues, and separate costs apply.</p></details>
+        <details><summary>How is AAA different from calling one insurance company?</summary><p>AAA Members Insurance Agency works with multiple carriers, so we can compare options for you instead of offering a single company's policy.</p></details>
+        <details><summary>Will getting a quote affect my credit?</summary><p>Starting a quote with us won't affect your credit. Your agent will explain any information a carrier requires before finalizing a policy.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <div class="sticky-cta" id="sticky">
+    <div class="sticky-text">Compare carriers free<small>Bundle and save up to 25%</small></div>
+    <div style="display:flex;gap:8px"><a class="btn btn-ghost btn-sm" href="tel:8886717044" aria-label="Call">📞</a><a class="btn btn-primary btn-sm" href="#quote" data-track="ins_sticky">Get quotes</a></div>
+  </div>
+
+  <script>
+  (function () {
+    const { $, $$ } = AAA;
+    const form = $("#ins-form");
+    const steps = $$(".wizard-step", form);
+    let step = 0;
+
+    function lines() { return $$("input[name=lines]:checked").map((i) => i.value); }
+    function updateBundle() {
+      const l = lines();
+      $("#bundle-hint").classList.toggle("show", l.includes("Auto") && (l.includes("Home") || l.includes("Renters")));
+    }
+    $("#what").addEventListener("change", updateBundle);
+
+    function showStep(i) {
+      step = i;
+      steps.forEach((s, j) => s.classList.toggle("active", j === i));
+      $$(".progress .step", form).forEach((s, j) => s.classList.toggle("done", j <= i));
+      AAA.track("ins_step", { step: i + 1 });
+    }
+    $$("[data-next]", form).forEach((b) => b.addEventListener("click", () => {
+      if (step === 0) {
+        const ok = lines().length > 0;
+        $("#what").closest(".field").classList.toggle("has-error", !ok);
+        if (!AAA.validate(steps[0]) || !ok) return;
+      } else if (!AAA.validate(steps[step])) return;
+      showStep(step + 1);
+    }));
+    $$("[data-back]", form).forEach((b) => b.addEventListener("click", () => showStep(step - 1)));
+    $("#i-zip").addEventListener("input", (e) => (e.target.value = e.target.value.replace(/\D/g, "").slice(0, 5)));
+
+    // Product tiles and ?line= links pre-select coverage.
+    function preselect(list) {
+      $$("input[name=lines]").forEach((i) => (i.checked = list.includes(i.value)));
+      updateBundle();
+      showStep(0);
+      $("#quote").scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(() => $("#i-zip").focus({ preventScroll: true }), 500);
+    }
+    $("#products").addEventListener("click", (e) => {
+      const t = e.target.closest("[data-line]");
+      if (t) preselect(t.dataset.line.split(","));
+    });
+    $("#products").addEventListener("keydown", (e) => {
+      const t = e.target.closest("[data-line]");
+      if (t && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); preselect(t.dataset.line.split(",")); }
+    });
+
+    AAA.persist(form, "aaa_ins_draft");
+    const qp = new URLSearchParams(location.search).get("line");
+    if (qp) $$("input[name=lines]").forEach((i) => (i.checked = qp.split(",").includes(i.value)));
+    updateBundle();
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!AAA.validate(steps[2])) return;
+      const btn = $("#ins-submit");
+      btn.disabled = true; btn.textContent = "Sending…";
+      const d = AAA.formData(form);
+      try {
+        await AAA.submitLead("insuranceLead", d);
+        try { localStorage.removeItem("aaa_ins_draft"); } catch (_) {}
+        $("#i-first").textContent = (d.name || "").split(" ")[0];
+        const l = [].concat(d.lines || []);
+        $("#i-lines").textContent = l.join(" + ").toLowerCase() || "your";
+        $("#i-when").textContent = d.callTime === "Email only" ? "by email within 1 business day" : `by phone in the ${String(d.callTime).toLowerCase()}`;
+        $("#i-upsell").style.display = d.isMember ? "none" : "block";
+        $(".progress", form).style.display = "none";
+        showStep(3);
+      } catch (_) {
+        btn.disabled = false; btn.textContent = "Get my free quotes";
+        AAA.toast("Couldn't send. Please call (888) 671-7044.");
+      }
+    });
+
+    AAA.stickyAfter($("#quote"), $("#sticky"));
+  })();
+  </script>
+</body>
+</html>
