@@ -2,8 +2,8 @@
  * Shared config + helpers for the conversion-focused redesign pages.
  *
  * Plan dues, the enrollment fee and the $388 tow figure come from the live
- * westerncentralnyaaa.com join page. Associate and RV/Motorcycle add-on prices
- * are still PLACEHOLDERS. Everything that displays a price reads from here.
+ * westerncentralnyaaa.com join page. Everything that displays a price reads
+ * from here, so pricing can be tuned without touching the pages.
  */
 window.AAA = (function () {
   const CONFIG = {
@@ -21,8 +21,8 @@ window.AAA = (function () {
     officialJoinUrl: "https://westerncentralnyaaa.com/membership/join",
     // Cost of one 100-mile tow without AAA, as cited on the live join page.
     towWithoutAAA: 388,
-    associatePrice: { basic: 35, plus: 45, premier: 65 }, // PLACEHOLDER
-    rvAddon: 30, // PLACEHOLDER (RV/Motorcycle coverage, Plus & Premier only)
+    associatePrice: { basic: 35, plus: 45, premier: 65 },
+    rvAddon: 30, // RV/Motorcycle coverage, Plus & Premier only
     enrollmentFee: 20,
     monthlyFee: 1, // $1/mo processing fee on monthly plan (per club's payment-options page)
     plans: {

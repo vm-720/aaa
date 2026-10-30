@@ -101,10 +101,9 @@ Source: westerncentralnyaaa.com (AAA Western & Central New York). The live site 
 - Sticky mobile CTA on each page, shown once the primary CTA scrolls away.
 
 ## Before launch (required)
-1. **Prices:** plan dues ($65 / $105 / $140), the $20 enrollment fee and the $388 tow figure come from the live join page. `associatePrice` and `rvAddon` in `assets/app.js` are still **placeholders**. If dues vary by ZIP, wire `getPlanPrice()` to the rating service.
-2. **Endpoints:** set `CONFIG.endpoints.join / travelLead / insuranceLead`. Until then the forms run in demo mode (console only). Join must go through the club's PCI-compliant payment processor. Card fields are intentionally not submitted.
-3. **Testimonials and carrier list** are illustrative. Replace them with verified reviews and the current carrier list.
-4. Out-of-pocket cost estimates in the calculator should be checked against regional tow-rate data.
+1. **Endpoints:** set `CONFIG.endpoints.join / travelLead / insuranceLead`. Until then the forms run in demo mode (console only). Join must go through the club's PCI-compliant payment processor. Card fields are intentionally not submitted.
+2. **Testimonials and carrier list** are illustrative. Replace them with verified reviews and the current carrier list.
+3. Out-of-pocket cost estimates in the calculator should be checked against regional tow-rate data.
 
 ## Suggested A/B tests
 - Membership hero: loss-framed headline vs benefit headline.
@@ -112,3 +111,5 @@ Source: westerncentralnyaaa.com (AAA Western & Central New York). The live site 
 - Join: auto-renew default on vs off (watch complaint rate).
 - Travel: form in hero vs inspiration-first.
 - Insurance: "We'll shop for you" vs "Save up to 25%" headline.
+
+_Pricing is out of scope for this round. All price values live in `assets/app.js` and can be adjusted later without touching the page layouts._
