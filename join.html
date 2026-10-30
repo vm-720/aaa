@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Join AAA | Covered in About 2 Minutes</title>
+  <meta name="description" content="Join AAA Western & Central New York online in about 2 minutes. Pick a plan, add your household, and get your digital card instantly.">
+  <link rel="stylesheet" href="assets/styles.css">
+  <style>
+    body { background: var(--bg-alt); }
+    .join-wrap { display: grid; grid-template-columns: 1fr 380px; gap: 28px; padding: 32px 0 80px; align-items: start; }
+    @media (max-width: 960px) { .join-wrap { grid-template-columns: 1fr; } .summary-col { order: -1; } }
+    .join-head { padding-top: 28px; }
+    .join-head h1 { font-size: clamp(1.7rem, 3.5vw, 2.4rem); margin-bottom: 6px; }
+    .stepper-head { display: flex; gap: 6px; margin: 18px 0 0; flex-wrap: wrap; }
+    .stepper-head span { font-size: .85rem; font-weight: 700; color: var(--muted); padding: 6px 12px; border-radius: 999px; background: #fff; border: 1px solid var(--line); }
+    .stepper-head span.on { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .stepper-head span.done { color: var(--green); border-color: var(--green); }
+
+    .plan-pick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    @media (max-width: 640px) { .plan-pick { grid-template-columns: 1fr; } }
+    .plan-pick .choice > span { align-items: flex-start; text-align: left; min-height: 120px; padding: 16px; }
+    .plan-pick .choice > span b { font-size: 1.15rem; }
+    .plan-pick .choice > span em { font-style: normal; font-weight: 800; color: var(--ink); font-size: 1.3rem; }
+    .plan-pick .tag { font-size: .7rem; font-weight: 800; color: #fff; background: var(--blue); padding: 2px 8px; border-radius: 999px; text-transform: uppercase; }
+
+    .assoc { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; margin-bottom: 10px; }
+    @media (max-width: 560px) { .assoc { grid-template-columns: 1fr 1fr; } .assoc .rm { grid-column: span 2; } }
+    .assoc .rm { border: none; background: none; color: var(--red); font-weight: 700; cursor: pointer; padding: 12px 6px; }
+    .add-assoc { border: 2px dashed var(--line); background: #fff; border-radius: 12px; width: 100%; padding: 14px; font: inherit; font-weight: 700; color: var(--blue); cursor: pointer; }
+    .add-assoc:hover { border-color: var(--blue); background: var(--blue-light); }
+
+    .summary { position: sticky; top: 84px; }
+    .sum-row { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 10px; font-size: .95rem; }
+    .sum-total { font-size: 1.3rem; font-weight: 800; }
+    .guarantee { display: flex; gap: 12px; align-items: flex-start; font-size: .88rem; color: var(--muted); margin-top: 16px; }
+    .guarantee .ico { font-size: 1.4rem; }
+    .help-card { margin-top: 16px; text-align: center; }
+
+    .toggle-line { display: flex; gap: 10px; align-items: flex-start; padding: 14px; border: 1.5px solid var(--line); border-radius: 12px; cursor: pointer; margin-bottom: 12px; background: #fff; }
+    .toggle-line input { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--blue); }
+    .toggle-line strong { display: block; }
+
+    .billing-pick { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .billing-pick .choice > span { min-height: 90px; }
+    .save-tag { color: var(--green); font-size: .8rem; font-weight: 800; }
+
+    .success { text-align: center; padding: 20px 0; }
+    .success .check { width: 84px; height: 84px; border-radius: 50%; background: var(--green-light); color: var(--green); font-size: 2.6rem; display: grid; place-items: center; margin: 0 auto 18px; }
+    .member-card { max-width: 360px; margin: 24px auto; background: linear-gradient(135deg, var(--blue), var(--blue-dark)); color: #fff; border-radius: 16px; padding: 22px; text-align: left; box-shadow: var(--shadow); }
+    .member-card .num { font-family: ui-monospace, monospace; letter-spacing: .1em; margin-top: 28px; font-size: 1.05rem; }
+    .lock { font-size: .82rem; color: var(--muted); display: flex; gap: 6px; align-items: center; justify-content: center; margin-top: 10px; }
+    .summary-toggle { display: none; }
+    @media (max-width: 960px) {
+      .summary { position: static; }
+      .summary-toggle { display: flex; justify-content: space-between; width: 100%; background: none; border: none; font: inherit; font-weight: 700; cursor: pointer; padding: 0; color: var(--ink); }
+      .summary-body.collapsed { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <script src="assets/app.js"></script>
+  <script>AAA.mountChrome("Join");</script>
+
+  <div class="container join-head">
+    <h1>Join AAA. Be covered in about 2 minutes.</h1>
+    <p class="muted" style="margin:0">Your digital membership card is ready the moment you finish.</p>
+    <div class="stepper-head" id="stepper-head">
+      <span class="on">1 · Plan</span><span>2 · Your info</span><span>3 · Payment</span>
+    </div>
+  </div>
+
+  <div class="container join-wrap">
+    <div>
+      <form class="card card-elevated" id="join-form" novalidate>
+
+        <!-- STEP 1: plan + ZIP (pricing is ZIP-based) -->
+        <div class="wizard-step active" data-step="0">
+          <h2 style="font-size:1.4rem">Choose your coverage</h2>
+          <div class="field">
+            <div class="plan-pick" data-required-group id="plan-pick"></div>
+            <div class="error-msg">Choose a plan to continue.</div>
+          </div>
+          <div class="field" style="max-width:260px">
+            <label for="zip">Home ZIP code</label>
+            <input type="text" id="zip" name="zip" inputmode="numeric" maxlength="5" autocomplete="postal-code" required data-zip placeholder="e.g. 14221">
+            <div class="error-msg">Enter a 5-digit ZIP code.</div>
+          </div>
+          <div class="notice" id="zip-notice" style="display:none">That ZIP looks like it may be outside Western &amp; Central NY. You can still continue, or <a href="https://www.aaa.com/stop" target="_blank" rel="noopener">find your local AAA club</a>.</div>
+          <label class="toggle-line">
+            <input type="checkbox" name="needNow" id="needNow" value="yes">
+            <span><strong>I need roadside help right now</strong><span class="small muted">We'll get you covered first. A one-time service fee applies, and service at enrollment is provided at the Basic level.</span></span>
+          </label>
+          <div class="wizard-nav"><span></span><button type="button" class="btn btn-primary btn-lg" data-next>Continue →</button></div>
+        </div>
+
+        <!-- STEP 2: member + household -->
+        <div class="wizard-step" data-step="1">
+          <h2 style="font-size:1.4rem">Who's getting covered?</h2>
+          <div class="field-row">
+            <div class="field"><label for="first">First name</label><input type="text" id="first" name="first" autocomplete="given-name" required><div class="error-msg">Required</div></div>
+            <div class="field"><label for="last">Last name</label><input type="text" id="last" name="last" autocomplete="family-name" required><div class="error-msg">Required</div></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label for="email">Email</label><input type="email" id="email" name="email" autocomplete="email" required><div class="error-msg">Enter a valid email.</div></div>
+            <div class="field"><label for="phone">Mobile phone</label><input type="tel" id="phone" name="phone" autocomplete="tel" required><div class="error-msg">Enter a 10-digit phone.</div></div>
+          </div>
+          <div class="field"><label for="addr">Street address</label><input type="text" id="addr" name="addr" autocomplete="street-address" required><div class="error-msg">Required</div></div>
+          <div class="field-row">
+            <div class="field"><label for="city">City</label><input type="text" id="city" name="city" autocomplete="address-level2" required><div class="error-msg">Required</div></div>
+            <div class="field"><label for="dob">Date of birth</label><input type="date" id="dob" name="dob" autocomplete="bday" required><div class="error-msg">Required</div></div>
+          </div>
+
+          <div class="divider"></div>
+          <h3>Add your household <span class="badge badge-green">Save vs. separate memberships</span></h3>
+          <p class="muted small">Each household member gets their own 4 roadside calls, in any car. Perfect for teen drivers and college students.</p>
+          <div id="assoc-list"></div>
+          <button type="button" class="add-assoc" id="add-assoc">+ Add a household member (<span id="assoc-price">$45</span>/yr)</button>
+
+          <div class="wizard-nav"><button type="button" class="btn btn-ghost" data-back>← Back</button><button type="button" class="btn btn-primary btn-lg" data-next>Continue to payment →</button></div>
+        </div>
+
+        <!-- STEP 3: billing + payment -->
+        <div class="wizard-step" data-step="2">
+          <h2 style="font-size:1.4rem">How would you like to pay?</h2>
+          <div class="billing-pick field">
+            <label class="choice"><input type="radio" name="billing" value="year" checked><span><b>Pay yearly</b><small id="bill-year">$99 today</small></span></label>
+            <label class="choice"><input type="radio" name="billing" value="month"><span><b>Pay monthly</b><small id="bill-month">$9.25/mo</small><span class="save-tag">Lowest upfront cost</span></span></label>
+          </div>
+          <label class="toggle-line">
+            <input type="checkbox" name="autoRenew" value="yes" checked>
+            <span><strong>Auto-renew so I'm never without coverage</strong><span class="small muted">Cancel auto-renew any time from your account.</span></span>
+          </label>
+
+          <div class="field"><label for="card">Card number</label><input type="text" id="card" inputmode="numeric" autocomplete="cc-number" placeholder="1234 5678 9012 3456" required><div class="error-msg">Enter your card number.</div></div>
+          <div class="field-row">
+            <div class="field"><label for="exp">Expiration</label><input type="text" id="exp" autocomplete="cc-exp" placeholder="MM / YY" required><div class="error-msg">Required</div></div>
+            <div class="field"><label for="cvc">Security code</label><input type="text" id="cvc" inputmode="numeric" autocomplete="cc-csc" placeholder="123" required><div class="error-msg">Required</div></div>
+          </div>
+          <label class="toggle-line" style="border:none;padding:0">
+            <input type="checkbox" name="terms" value="yes" required id="terms">
+            <span class="small">I agree to the <a href="https://westerncentralnyaaa.com/membership/my-aaa/membership-terms" target="_blank" rel="noopener">membership terms</a>.</span>
+          </label>
+          <div class="field" style="margin:0"><div class="error-msg" id="terms-err">Please accept the membership terms.</div></div>
+
+          <div class="wizard-nav"><button type="button" class="btn btn-ghost" data-back>← Back</button><button type="submit" class="btn btn-primary btn-lg" id="pay-btn">Join for $99</button></div>
+          <div class="lock">🔒 256-bit encrypted checkout</div>
+        </div>
+
+        <!-- SUCCESS -->
+        <div class="wizard-step" data-step="3">
+          <div class="success">
+            <div class="check">✓</div>
+            <h2>Welcome to AAA, <span id="welcome-name">friend</span>!</h2>
+            <p class="lead" style="margin-inline:auto">You're covered. Your digital card is below and on its way to your inbox.</p>
+            <div class="member-card">
+              <div style="display:flex;justify-content:space-between"><strong style="font-style:italic;font-size:1.3rem">AAA</strong><span id="card-plan">PLUS</span></div>
+              <div class="num">620084 •••• •••• ••••</div>
+              <div style="margin-top:8px;font-weight:700" id="card-name">MEMBER NAME</div>
+            </div>
+            <div class="grid grid-3" style="text-align:left;margin-top:24px">
+              <div class="card"><strong>📱 Get the app</strong><p class="small muted" style="margin:6px 0 0">Request roadside help with live tracking.</p></div>
+              <div class="card"><strong>📞 Save our number</strong><p class="small muted" style="margin:6px 0 0">Roadside help, 24/7.</p></div>
+              <div class="card"><strong>🛡️ Members save on insurance</strong><p class="small muted" style="margin:6px 0 0"><a href="insurance.html?from=join">Get a free quote →</a></p></div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- LIVE ORDER SUMMARY -->
+    <aside class="summary-col">
+      <div class="card card-elevated summary">
+        <button type="button" class="summary-toggle" id="summary-toggle"><span>Your membership</span><span id="sum-total-mobile">$99</span></button>
+        <div class="summary-body" id="summary-body">
+          <h3 style="margin-bottom:14px">Your membership</h3>
+          <div id="sum-lines"></div>
+          <div class="divider"></div>
+          <div class="sum-row sum-total"><span>Due today</span><span id="sum-total">$99</span></div>
+          <div class="small muted" id="sum-sub"></div>
+          <div class="guarantee"><span class="ico">⚡</span><span>Covered immediately after checkout.</span></div>
+          <div class="guarantee"><span class="ico">🔁</span><span>Upgrade, add members, or change payment any time.</span></div>
+          <div class="guarantee"><span class="ico">🏠</span><span>Your local, member-owned club since 1900.</span></div>
+        </div>
+      </div>
+      <div class="card help-card">
+        <strong>Prefer to join by phone?</strong>
+        <p class="small muted" style="margin:4px 0 10px">A local team member can sign you up in minutes.</p>
+        <a class="btn btn-ghost btn-block" href="tel:8008362582" data-track="join_phone">📞 (800) 836-2582</a>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+  (function () {
+    const { CONFIG, money, $, $$ } = AAA;
+    const plans = CONFIG.plans;
+    const form = $("#join-form");
+    const steps = $$(".wizard-step", form);
+    const params = new URLSearchParams(location.search);
+    let step = 0;
+
+    // Plan tiles
+    $("#plan-pick").innerHTML = ["basic", "plus", "premier"].map((k) => `
+      <label class="choice"><input type="radio" name="plan" value="${k}"><span>
+        ${plans[k].popular ? '<span class="tag">Most popular</span>' : ""}
+        <b>${plans[k].name}</b><small>${plans[k].tow}</small><em>${money(plans[k].price)}<small>/yr</small></em>
+      </span></label>`).join("");
+
+    AAA.persist(form, "aaa_join_draft");
+
+    const startPlan = params.get("plan");
+    if (startPlan && plans[startPlan]) $(`input[name=plan][value=${startPlan}]`).checked = true;
+    else if (!$("input[name=plan]:checked")) $("input[name=plan][value=plus]").checked = true;
+    if (params.get("billing") === "month") $("input[name=billing][value=month]").checked = true;
+
+    // Household members
+    let assocCount = 0;
+    function addAssoc(first = "", rel = "") {
+      assocCount++;
+      const row = document.createElement("div");
+      row.className = "assoc";
+      row.innerHTML = `
+        <div class="field" style="margin:0"><label>Name</label><input type="text" name="assocName" value="${first}" placeholder="First and last name"></div>
+        <div class="field" style="margin:0"><label>Relationship</label><select name="assocRel">
+          <option value="">Select</option><option>Spouse / partner</option><option>Child</option><option>Parent</option><option>Other household</option></select></div>
+        <button type="button" class="rm" aria-label="Remove">Remove</button>`;
+      if (rel) $("select", row).value = rel;
+      $("#assoc-list").appendChild(row);
+      $(".rm", row).addEventListener("click", () => { row.remove(); assocCount--; update(); });
+      update();
+    }
+    $("#add-assoc").addEventListener("click", () => { addAssoc(); $("#assoc-list .assoc:last-child input").focus(); });
+
+    function plan() { return $("input[name=plan]:checked")?.value || "plus"; }
+    function billing() { return $("input[name=billing]:checked")?.value || "year"; }
+
+    function totals() {
+      const k = plan();
+      const base = plans[k].price;
+      const assoc = assocCount * CONFIG.associatePrice[k];
+      const fee = CONFIG.enrollmentFee;
+      const annual = base + assoc;
+      const monthly = annual / 12 + CONFIG.monthlyFee;
+      return { k, base, assoc, fee, annual, monthly, today: billing() === "year" ? annual + fee : monthly + fee };
+    }
+
+    function update() {
+      const t = totals();
+      $("#assoc-price").textContent = money(CONFIG.associatePrice[t.k]);
+      $("#sum-lines").innerHTML = `
+        <div class="sum-row"><span>AAA ${plans[t.k].name} · primary</span><span>${money(t.base)}/yr</span></div>
+        ${assocCount ? `<div class="sum-row"><span>${assocCount} household member${assocCount > 1 ? "s" : ""}</span><span>${money(t.assoc)}/yr</span></div>` : ""}
+        <div class="sum-row"><span>One-time enrollment fee</span><span>${money(t.fee)}</span></div>
+        ${billing() === "month" ? `<div class="sum-row muted"><span>Monthly plan (incl. $1 processing)</span><span>${money(t.monthly, true)}/mo</span></div>` : ""}`;
+      const today = money(t.today, billing() === "month");
+      $("#sum-total").textContent = $("#sum-total-mobile").textContent = today;
+      $("#sum-sub").textContent = billing() === "month" ? `Then ${money(t.monthly, true)}/month` : `Just ${Math.round((t.annual / 365) * 100)}¢ a day`;
+      $("#bill-year").textContent = money(t.annual + t.fee) + " today";
+      $("#bill-month").textContent = money(t.monthly, true) + "/mo";
+      $("#pay-btn").textContent = `Join for ${today}`;
+    }
+    form.addEventListener("change", update);
+
+    // ZIP soft territory check (WCNY ZIPs begin 13x/14x).
+    $("#zip").addEventListener("input", (e) => {
+      e.target.value = e.target.value.replace(/\D/g, "").slice(0, 5);
+      const z = e.target.value;
+      $("#zip-notice").style.display = z.length === 5 && !/^1[34]/.test(z) ? "block" : "none";
+    });
+
+    function showStep(i) {
+      step = i;
+      steps.forEach((s, j) => s.classList.toggle("active", j === i));
+      $$("#stepper-head span").forEach((s, j) => { s.classList.toggle("on", j === i); s.classList.toggle("done", j < i); });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      AAA.track("join_step", { step: i + 1 });
+    }
+    $$("[data-next]", form).forEach((b) => b.addEventListener("click", () => { if (AAA.validate(steps[step])) showStep(step + 1); }));
+    $$("[data-back]", form).forEach((b) => b.addEventListener("click", () => showStep(step - 1)));
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      $("#terms-err").closest(".field").classList.toggle("has-error", !$("#terms").checked);
+      if (!AAA.validate(steps[2])) return;
+      const btn = $("#pay-btn");
+      btn.disabled = true; btn.textContent = "Processing…";
+      // Card fields have no name attribute, so they are never included here.
+      const data = AAA.formData(form);
+      try {
+        await AAA.submitLead("join", { ...data, totals: totals() });
+        try { localStorage.removeItem("aaa_join_draft"); } catch (_) {}
+        $("#welcome-name").textContent = data.first || "friend";
+        $("#card-name").textContent = `${data.first} ${data.last}`.toUpperCase();
+        $("#card-plan").textContent = plans[plan()].name.toUpperCase();
+        $("#stepper-head").style.display = "none";
+        showStep(3);
+        AAA.track("join_complete", { plan: plan(), associates: assocCount, billing: billing() });
+      } catch (err) {
+        btn.disabled = false; update();
+        AAA.toast("Something went wrong. Please try again or call (800) 836-2582.");
+      }
+    });
+
+    $("#summary-toggle").addEventListener("click", () => $("#summary-body").classList.toggle("collapsed"));
+    if (window.matchMedia("(max-width: 960px)").matches) $("#summary-body").classList.add("collapsed");
+
+    update();
+  })();
+  </script>
+</body>
+</html>

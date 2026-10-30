@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AAA Travel | Tell Us Your Dream Trip. A Local Agent Plans It Free.</title>
+  <meta name="description" content="Answer 4 quick questions and a local AAA travel advisor will build your trip, free. Cruises, tours, all-inclusives, Disney and escorted group trips from Western & Central NY.">
+  <link rel="stylesheet" href="assets/styles.css">
+  <style>
+    .hero.travel { background: linear-gradient(120deg, rgba(7,42,102,.94), rgba(11,61,145,.82)), radial-gradient(circle at 80% 20%, #2a7bd8, #0b3d91); }
+    .builder { padding: 28px; }
+    .builder h3 { font-size: 1.3rem; }
+    .builder .choices { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 560px) { .builder .choices { grid-template-columns: repeat(2, 1fr); } }
+    .builder .choice > span { min-height: 84px; font-size: .92rem; }
+    .budget-out { font-size: 1.8rem; font-weight: 800; color: var(--blue); }
+    input[type=range] { width: 100%; accent-color: var(--blue); }
+    .agent { display: flex; gap: 14px; align-items: center; background: var(--blue-light); border-radius: 12px; padding: 14px; margin-bottom: 18px; }
+    .agent .avatar { width: 52px; height: 52px; border-radius: 50%; background: var(--blue); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 1.2rem; flex: none; }
+
+    .inspo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 920px) { .inspo { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .inspo { grid-template-columns: 1fr; } }
+    .trip { border-radius: var(--radius); overflow: hidden; background: #fff; border: 1px solid var(--line); display: flex; flex-direction: column; transition: transform .15s, box-shadow .15s; }
+    .trip:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+    .trip .art { height: 150px; display: grid; place-items: center; font-size: 3.6rem; }
+    .trip .body { padding: 18px; display: flex; flex-direction: column; flex: 1; }
+    .trip .body p { color: var(--muted); font-size: .92rem; flex: 1; }
+    .perks { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+
+    .how { counter-reset: how; }
+    .how .card { position: relative; padding-top: 44px; }
+    .how .card::before { counter-increment: how; content: counter(how); position: absolute; top: -18px; left: 24px; width: 40px; height: 40px; border-radius: 50%; background: var(--red); color: #fff; font-weight: 800; display: grid; place-items: center; font-size: 1.1rem; }
+
+    .compare-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: var(--radius); overflow: hidden; }
+    .compare-table th, .compare-table td { padding: 14px 16px; border-bottom: 1px solid var(--line); text-align: left; }
+    .compare-table th { background: var(--blue); color: #fff; }
+    .compare-table td:nth-child(2), .compare-table td:nth-child(3), .compare-table th:nth-child(2), .compare-table th:nth-child(3) { text-align: center; }
+    .compare-table .yes { color: var(--green); font-weight: 800; }
+    .compare-table .no { color: var(--muted); }
+
+    .quick-links { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    .quick-links a { background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 10px 18px; text-decoration: none; font-weight: 600; color: var(--ink); }
+    .quick-links a:hover { border-color: var(--blue); color: var(--blue); }
+    .done-box { text-align: center; padding: 10px 0; }
+    .done-box .check { width: 70px; height: 70px; border-radius: 50%; background: var(--green-light); color: var(--green); font-size: 2.2rem; display: grid; place-items: center; margin: 0 auto 14px; }
+  </style>
+</head>
+<body>
+  <script src="assets/app.js"></script>
+  <script>AAA.mountChrome("Travel");</script>
+
+  <!-- HERO: the form IS the hero. Lead capture starts above the fold. -->
+  <section class="hero travel">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">AAA Travel · Free trip planning</span>
+        <h1>Tell us your dream trip. A local expert builds it, free.</h1>
+        <p class="lead">Skip the 47 browser tabs. Answer 4 quick questions and a AAA travel advisor from your neighborhood office will come back with a plan, plus member-only perks you can't get booking online.</p>
+        <div class="trust-row">
+          <span>$0 planning fee</span>
+          <span>Members &amp; non-members welcome</span>
+          <span>Real people in Buffalo, Rochester &amp; Syracuse areas</span>
+        </div>
+      </div>
+
+      <div class="card card-elevated builder" id="builder">
+        <form id="trip-form" novalidate>
+          <div class="progress" aria-hidden="true"><div class="step done"></div><div class="step"></div><div class="step"></div><div class="step"></div><div class="step"></div></div>
+
+          <div class="wizard-step active" data-step="0">
+            <div class="step-label">Step 1 of 5</div>
+            <h3>What kind of trip are you dreaming of?</h3>
+            <div class="choices" data-required-group>
+              <label class="choice"><input type="radio" name="tripType" value="Cruise"><span><span class="ico">🛳️</span>Cruise</span></label>
+              <label class="choice"><input type="radio" name="tripType" value="Beach / All-inclusive"><span><span class="ico">🏝️</span>Beach</span></label>
+              <label class="choice"><input type="radio" name="tripType" value="Europe / Guided tour"><span><span class="ico">🏰</span>Europe tour</span></label>
+              <label class="choice"><input type="radio" name="tripType" value="Theme parks"><span><span class="ico">🎢</span>Theme parks</span></label>
+              <label class="choice"><input type="radio" name="tripType" value="Group trip from WNY/CNY"><span><span class="ico">🚌</span>Group trip</span></label>
+              <label class="choice"><input type="radio" name="tripType" value="Not sure yet"><span><span class="ico">🤔</span>Surprise me</span></label>
+            </div>
+          </div>
+
+          <div class="wizard-step" data-step="1">
+            <div class="step-label">Step 2 of 5</div>
+            <h3>Who's coming along?</h3>
+            <div class="choices" data-required-group>
+              <label class="choice"><input type="radio" name="party" value="Solo"><span><span class="ico">🧳</span>Just me</span></label>
+              <label class="choice"><input type="radio" name="party" value="Couple"><span><span class="ico">💑</span>Couple</span></label>
+              <label class="choice"><input type="radio" name="party" value="Family with kids"><span><span class="ico">👨‍👩‍👧</span>Family</span></label>
+              <label class="choice"><input type="radio" name="party" value="Friends"><span><span class="ico">👯</span>Friends</span></label>
+              <label class="choice"><input type="radio" name="party" value="Celebration (honeymoon, anniversary, milestone)"><span><span class="ico">🥂</span>Celebration</span></label>
+              <label class="choice"><input type="radio" name="party" value="Large group (10+)"><span><span class="ico">👥</span>10+ people</span></label>
+            </div>
+          </div>
+
+          <div class="wizard-step" data-step="2">
+            <div class="step-label">Step 3 of 5</div>
+            <h3>When are you thinking?</h3>
+            <div class="choices" data-required-group>
+              <label class="choice"><input type="radio" name="when" value="Next 3 months"><span><span class="ico">⚡</span>Next 3 months</span></label>
+              <label class="choice"><input type="radio" name="when" value="3–6 months"><span><span class="ico">📅</span>3–6 months</span></label>
+              <label class="choice"><input type="radio" name="when" value="6–12 months"><span><span class="ico">🗓️</span>6–12 months</span></label>
+              <label class="choice"><input type="radio" name="when" value="February break"><span><span class="ico">❄️</span>Feb break</span></label>
+              <label class="choice"><input type="radio" name="when" value="Summer"><span><span class="ico">☀️</span>Summer</span></label>
+              <label class="choice"><input type="radio" name="when" value="Flexible"><span><span class="ico">🤷</span>Flexible</span></label>
+            </div>
+          </div>
+
+          <div class="wizard-step" data-step="3">
+            <div class="step-label">Step 4 of 5</div>
+            <h3>Budget per person?</h3>
+            <p class="budget-out" id="budget-out">$3,000</p>
+            <input type="range" name="budget" id="budget" min="500" max="15000" step="250" value="3000" aria-label="Budget per person">
+            <div style="display:flex;justify-content:space-between" class="small muted"><span>$500</span><span>$15,000+</span></div>
+            <p class="small muted" style="margin-top:12px">Rough is fine. It helps your advisor find the best value.</p>
+            <div class="wizard-nav"><span></span><button type="button" class="btn btn-primary" data-next>Next →</button></div>
+          </div>
+
+          <div class="wizard-step" data-step="4">
+            <div class="step-label">Last step!</div>
+            <div class="agent"><div class="avatar">✈</div><div><strong id="agent-line">Great choice!</strong><div class="small muted">Where should your advisor send ideas?</div></div></div>
+            <div class="field-row">
+              <div class="field"><label for="t-name">Name</label><input type="text" id="t-name" name="name" autocomplete="name" required><div class="error-msg">Required</div></div>
+              <div class="field"><label for="t-zip">ZIP</label><input type="text" id="t-zip" name="zip" inputmode="numeric" maxlength="5" required data-zip><div class="error-msg">5-digit ZIP</div></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label for="t-email">Email</label><input type="email" id="t-email" name="email" autocomplete="email" required><div class="error-msg">Valid email</div></div>
+              <div class="field"><label for="t-phone">Phone</label><input type="tel" id="t-phone" name="phone" autocomplete="tel" required><div class="error-msg">10-digit phone</div></div>
+            </div>
+            <div class="field">
+              <label>Best way to reach you</label>
+              <div class="choices" style="grid-template-columns:repeat(3,1fr)">
+                <label class="choice"><input type="radio" name="contactPref" value="Call" checked><span style="min-height:48px">📞 Call</span></label>
+                <label class="choice"><input type="radio" name="contactPref" value="Text"><span style="min-height:48px">💬 Text</span></label>
+                <label class="choice"><input type="radio" name="contactPref" value="Email"><span style="min-height:48px">✉️ Email</span></label>
+              </div>
+            </div>
+            <label style="display:flex;gap:8px;font-weight:500;font-size:.9rem"><input type="checkbox" name="isMember" value="yes"> I'm a AAA member</label>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" style="margin-top:16px" id="trip-submit">Get my free trip plan</button>
+            <p class="small muted center" style="margin:10px 0 0">No obligation. We never sell your info.</p>
+          </div>
+
+          <div class="wizard-step" data-step="5">
+            <div class="done-box">
+              <div class="check">✓</div>
+              <h3>You're on your way, <span id="t-first"></span>!</h3>
+              <p class="muted">A AAA travel advisor will reach out within 1 business day with ideas for your <strong id="t-type"></strong>.</p>
+              <div class="highlight-box" id="t-upsell" style="text-align:left">Not a member yet? Members get exclusive savings and perks on many cruises, tours and hotels. <a href="membership.html">See membership →</a></div>
+            </div>
+          </div>
+
+          <div class="wizard-nav" id="trip-nav" style="justify-content:flex-start">
+            <button type="button" class="btn btn-ghost btn-sm" id="trip-back" style="visibility:hidden">← Back</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSPIRATION: every card is a shortcut into the builder -->
+  <section class="section">
+    <div class="container">
+      <div class="center" style="margin-bottom:36px">
+        <span class="eyebrow">Need inspiration?</span>
+        <h2>Trips our members are booking now</h2>
+        <p class="lead">Tap one and we'll pre-fill your request. Your advisor handles the rest.</p>
+      </div>
+      <div class="inspo" id="inspo"></div>
+    </div>
+  </section>
+
+  <!-- WHY AN AGENT: answer "why not just book online myself?" -->
+  <section class="section alt">
+    <div class="container" style="max-width:900px">
+      <div class="center" style="margin-bottom:32px">
+        <span class="eyebrow">Why book with AAA?</span>
+        <h2>Same trip. More perks. Someone in your corner.</h2>
+      </div>
+      <table class="compare-table">
+        <thead><tr><th></th><th>AAA Travel</th><th>Booking site</th></tr></thead>
+        <tbody>
+          <tr><td>Planning fee</td><td class="yes">$0</td><td class="yes">$0</td></tr>
+          <tr><td>Member-exclusive perks &amp; savings on select cruises, tours &amp; hotels</td><td class="yes">✓</td><td class="no">—</td></tr>
+          <tr><td>A real person to call when a flight is cancelled</td><td class="yes">✓</td><td class="no">Chatbot</td></tr>
+          <tr><td>Escorted group trips departing from Western &amp; Central NY</td><td class="yes">✓</td><td class="no">—</td></tr>
+          <tr><td>Travel insurance, passports photos, International Driving Permits under one roof</td><td class="yes">✓</td><td class="no">—</td></tr>
+          <tr><td>Advice from someone who's actually been there</td><td class="yes">✓</td><td class="no">Reviews</td></tr>
+        </tbody>
+      </table>
+      <div class="center" style="margin-top:28px"><a href="#builder" class="btn btn-primary btn-lg" data-track="travel_compare_cta">Start my free trip plan</a></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="center" style="margin-bottom:44px">How it works</h2>
+      <div class="grid grid-3 how">
+        <div class="card"><h3>Tell us the dream</h3><p class="muted">60 seconds, 4 questions. No account, no commitment.</p></div>
+        <div class="card"><h3>Get a custom plan</h3><p class="muted">A local advisor compares options and sends ideas within 1 business day.</p></div>
+        <div class="card"><h3>Pack your bags</h3><p class="muted">We book everything and stay on call while you travel.</p></div>
+      </div>
+      <div class="grid grid-3" style="margin-top:36px">
+        <blockquote class="card quote"><div class="stars">★★★★★</div>"Our agent rebooked our whole Alaska cruise connection when our flight out of BUF was cancelled. I didn't make a single call."<footer>— Traveler, Amherst</footer></blockquote>
+        <blockquote class="card quote"><div class="stars">★★★★★</div>"The group trip from Rochester was the easiest vacation I've ever taken. They handled everything."<footer>— Traveler, Greece, NY</footer></blockquote>
+        <blockquote class="card quote"><div class="stars">★★★★★</div>"Honeymoon in Italy, planned around our budget, with upgrades we never would've found."<footer>— Traveler, Liverpool</footer></blockquote>
+      </div>
+      <p class="small muted center" style="margin-top:12px">Replace with verified traveler reviews before launch.</p>
+    </div>
+  </section>
+
+  <!-- Secondary tasks moved out of the way so they don't compete with the main CTA -->
+  <section class="section alt" style="padding:40px 0">
+    <div class="container center">
+      <p class="muted" style="font-weight:700">Here for something quick?</p>
+      <div class="quick-links">
+        <a href="https://westerncentralnyaaa.com/travel">International Driving Permit</a>
+        <a href="https://westerncentralnyaaa.com/travel">Passport photos</a>
+        <a href="https://westerncentralnyaaa.com/travel">Hotel &amp; rental car discounts</a>
+        <a href="https://westerncentralnyaaa.com/travel">Group travel catalog</a>
+        <a href="insurance.html">Travel insurance</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="sticky-cta" id="sticky">
+    <div class="sticky-text">Free trip planning<small>Answer 4 questions, 60 seconds</small></div>
+    <a class="btn btn-primary btn-sm" href="#builder" data-track="travel_sticky">Start</a>
+  </div>
+
+  <script>
+  (function () {
+    const { money, $, $$ } = AAA;
+    const form = $("#trip-form");
+    const steps = $$(".wizard-step", form);
+    let step = 0;
+
+    const TRIPS = [
+      { art: "🛳️", bg: "#dbeafe", title: "Caribbean cruise", type: "Cruise", text: "Kid-friendly ships, adults-only escapes, and onboard credit with select lines.", perks: ["Member perks", "Family"] },
+      { art: "🏔️", bg: "#e0f2fe", title: "Alaska by sea & land", type: "Cruise", text: "Glaciers, Denali and wildlife. Book early for the best cabins.", perks: ["Bucket list", "Summer"] },
+      { art: "🏰", bg: "#fef3c7", title: "Guided Europe tour", type: "Europe / Guided tour", text: "Italy, Ireland, or the Rhine. Hotels, guides and most meals handled.", perks: ["Escorted", "Member savings"] },
+      { art: "🏝️", bg: "#dcfce7", title: "All-inclusive escape", type: "Beach / All-inclusive", text: "Mexico, Punta Cana or Jamaica, timed for February break.", perks: ["Feb break", "Couples"] },
+      { art: "🎢", bg: "#fce7f3", title: "Theme park vacation", type: "Theme parks", text: "Tickets, hotels and dining plans bundled by people who know the parks.", perks: ["Family", "Packages"] },
+      { art: "🚌", bg: "#ede9fe", title: "Group trips from home", type: "Group trip from WNY/CNY", text: "Escorted trips leaving from Buffalo, Rochester and Syracuse. Just show up.", perks: ["Local departure", "Escorted"] },
+    ];
+    $("#inspo").innerHTML = TRIPS.map((t, i) => `
+      <article class="trip">
+        <div class="art" style="background:${t.bg}" aria-hidden="true">${t.art}</div>
+        <div class="body">
+          <h3>${t.title}</h3>
+          <div class="perks">${t.perks.map((p) => `<span class="badge">${p}</span>`).join("")}</div>
+          <p>${t.text}</p>
+          <button type="button" class="btn btn-ghost btn-block" data-trip="${i}" data-track="inspo_${i}">Plan this trip →</button>
+        </div>
+      </article>`).join("");
+    $("#inspo").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-trip]");
+      if (!b) return;
+      const t = TRIPS[+b.dataset.trip];
+      $(`input[name=tripType][value="${t.type}"]`).checked = true;
+      showStep(1);
+      $("#builder").scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+
+    function showStep(i) {
+      step = i;
+      steps.forEach((s, j) => s.classList.toggle("active", j === i));
+      $$(".progress .step", form).forEach((s, j) => s.classList.toggle("done", j <= i));
+      $("#trip-back").style.visibility = i > 0 && i < 5 ? "visible" : "hidden";
+      if (i === 4) {
+        const d = AAA.formData(form);
+        $("#agent-line").textContent = `${d.party || "Your"} ${(d.tripType || "trip").toLowerCase()} · ${d.when || ""} · ~${money(+d.budget)}/person`;
+      }
+      AAA.track("travel_step", { step: i + 1 });
+    }
+    // Auto-advance on tap for the single-choice steps.
+    form.addEventListener("change", (e) => {
+      if (e.target.type === "radio" && step < 3 && e.target.closest("[data-required-group]")) setTimeout(() => showStep(step + 1), 220);
+    });
+    $$("[data-next]", form).forEach((b) => b.addEventListener("click", () => showStep(step + 1)));
+    $("#trip-back").addEventListener("click", () => showStep(Math.max(0, step - 1)));
+
+    const budget = $("#budget");
+    const fmtBudget = () => ($("#budget-out").textContent = money(+budget.value) + (+budget.value >= 15000 ? "+" : ""));
+    budget.addEventListener("input", fmtBudget);
+    $("#t-zip").addEventListener("input", (e) => (e.target.value = e.target.value.replace(/\D/g, "").slice(0, 5)));
+
+    AAA.persist(form, "aaa_trip_draft");
+    fmtBudget();
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!AAA.validate(steps[4])) return;
+      const btn = $("#trip-submit");
+      btn.disabled = true; btn.textContent = "Sending…";
+      const d = AAA.formData(form);
+      try {
+        await AAA.submitLead("travelLead", d);
+        try { localStorage.removeItem("aaa_trip_draft"); } catch (_) {}
+        $("#t-first").textContent = (d.name || "").split(" ")[0];
+        $("#t-type").textContent = (d.tripType || "trip").toLowerCase();
+        $("#t-upsell").style.display = d.isMember ? "none" : "block";
+        $(".progress", form).style.display = "none";
+        showStep(5);
+      } catch (_) {
+        btn.disabled = false; btn.textContent = "Get my free trip plan";
+        AAA.toast("Couldn't send. Please try again.");
+      }
+    });
+
+    AAA.stickyAfter($("#builder"), $("#sticky"));
+  })();
+  </script>
+</body>
+</html>
