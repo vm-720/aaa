@@ -5,53 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AAA Travel | Tell Us Your Dream Trip. A Local Agent Plans It Free.</title>
   <meta name="description" content="Answer 4 quick questions and a local AAA travel advisor will build your trip, free. Cruises, tours, all-inclusives, Disney and escorted group trips from Western & Central NY.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600;0,700;0,800;1,800&family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
   <style>
-    .hero.travel { background: linear-gradient(120deg, rgba(7,42,102,.94), rgba(11,61,145,.82)), radial-gradient(circle at 80% 20%, #2a7bd8, #0b3d91); }
     .builder { padding: 28px; }
     .builder h3 { font-size: 1.3rem; }
     .builder .choices { grid-template-columns: repeat(3, 1fr); }
     @media (max-width: 560px) { .builder .choices { grid-template-columns: repeat(2, 1fr); } }
     .builder .choice > span { min-height: 84px; font-size: .92rem; }
-    .budget-out { font-size: 1.8rem; font-weight: 800; color: var(--blue); }
-    input[type=range] { width: 100%; accent-color: var(--blue); }
-    .agent { display: flex; gap: 14px; align-items: center; background: var(--blue-light); border-radius: 12px; padding: 14px; margin-bottom: 18px; }
-    .agent .avatar { width: 52px; height: 52px; border-radius: 50%; background: var(--blue); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 1.2rem; flex: none; }
+    .budget-out { font-family: var(--font-head); font-size: 2rem; font-weight: 800; color: var(--navy); margin: 0 0 8px; }
+    input[type=range] { width: 100%; accent-color: var(--navy); }
+    .agent { display: flex; gap: 14px; align-items: center; background: var(--navy-light); border-radius: 12px; padding: 14px; margin-bottom: 18px; }
+    .agent .avatar { width: 52px; height: 52px; border-radius: 50%; background: var(--navy); color: #fff; display: grid; place-items: center; flex: none; }
+    .agent .avatar svg.icon { width: 24px; height: 24px; }
 
     .inspo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     @media (max-width: 920px) { .inspo { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 560px) { .inspo { grid-template-columns: 1fr; } }
     .trip { border-radius: var(--radius); overflow: hidden; background: #fff; border: 1px solid var(--line); display: flex; flex-direction: column; transition: transform .15s, box-shadow .15s; }
     .trip:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
-    .trip .art { height: 150px; display: grid; place-items: center; font-size: 3.6rem; }
+    .trip .photo { height: 200px; }
+    .trip .photo img { transition: transform .4s ease; }
+    .trip:hover .photo img { transform: scale(1.05); }
+    .trip .photo .badge { position: absolute; left: 14px; top: 14px; background: #fff; }
     .trip .body { padding: 18px; display: flex; flex-direction: column; flex: 1; }
     .trip .body p { color: var(--muted); font-size: .92rem; flex: 1; }
     .perks { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
 
     .how { counter-reset: how; }
     .how .card { position: relative; padding-top: 44px; }
-    .how .card::before { counter-increment: how; content: counter(how); position: absolute; top: -18px; left: 24px; width: 40px; height: 40px; border-radius: 50%; background: var(--red); color: #fff; font-weight: 800; display: grid; place-items: center; font-size: 1.1rem; }
+    .how .card::before { counter-increment: how; content: counter(how); position: absolute; top: -20px; left: 24px; width: 44px; height: 44px; border-radius: 50%; background: var(--red); color: #fff; font-family: var(--font-head); font-weight: 800; display: grid; place-items: center; font-size: 1.15rem; }
 
     .compare-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: var(--radius); overflow: hidden; }
     .compare-table th, .compare-table td { padding: 14px 16px; border-bottom: 1px solid var(--line); text-align: left; }
-    .compare-table th { background: var(--blue); color: #fff; }
+    .compare-table th { background: var(--navy); color: #fff; font-family: var(--font-head); font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; }
+    .compare-table .yes svg.icon { width: 22px; height: 22px; stroke-width: 3; }
     .compare-table td:nth-child(2), .compare-table td:nth-child(3), .compare-table th:nth-child(2), .compare-table th:nth-child(3) { text-align: center; }
     .compare-table .yes { color: var(--green); font-weight: 800; }
     .compare-table .no { color: var(--muted); }
 
     .quick-links { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
     .quick-links a { background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 10px 18px; text-decoration: none; font-weight: 600; color: var(--ink); }
-    .quick-links a:hover { border-color: var(--blue); color: var(--blue); }
+    .quick-links a:hover { border-color: var(--navy); color: var(--navy); }
     .done-box { text-align: center; padding: 10px 0; }
-    .done-box .check { width: 70px; height: 70px; border-radius: 50%; background: var(--green-light); color: var(--green); font-size: 2.2rem; display: grid; place-items: center; margin: 0 auto 14px; }
   </style>
 </head>
 <body>
+  <script src="assets/icons.js"></script>
   <script src="assets/app.js"></script>
   <script>AAA.mountChrome("Travel");</script>
 
   <!-- HERO: the form IS the hero. Lead capture starts above the fold. -->
   <section class="hero travel">
+    <div class="hero-bg"><img src="https://images.pexels.com/photos/813011/pexels-photo-813011.jpeg?auto=compress&cs=tinysrgb&w=2000" alt="White cruise ship sailing on the ocean under a clear sky" onerror="this.remove()"></div>
     <div class="container hero-grid">
       <div>
         <span class="eyebrow">AAA Travel · Free trip planning</span>
@@ -72,12 +80,12 @@
             <div class="step-label">Step 1 of 5</div>
             <h3>What kind of trip are you dreaming of?</h3>
             <div class="choices" data-required-group>
-              <label class="choice"><input type="radio" name="tripType" value="Cruise"><span><span class="ico">🛳️</span>Cruise</span></label>
-              <label class="choice"><input type="radio" name="tripType" value="Beach / All-inclusive"><span><span class="ico">🏝️</span>Beach</span></label>
-              <label class="choice"><input type="radio" name="tripType" value="Europe / Guided tour"><span><span class="ico">🏰</span>Europe tour</span></label>
-              <label class="choice"><input type="radio" name="tripType" value="Theme parks"><span><span class="ico">🎢</span>Theme parks</span></label>
-              <label class="choice"><input type="radio" name="tripType" value="Group trip from WNY/CNY"><span><span class="ico">🚌</span>Group trip</span></label>
-              <label class="choice"><input type="radio" name="tripType" value="Not sure yet"><span><span class="ico">🤔</span>Surprise me</span></label>
+              <label class="choice"><input type="radio" name="tripType" value="Cruise"><span><i data-icon="ship" class="ico"></i>Cruise</span></label>
+              <label class="choice"><input type="radio" name="tripType" value="Beach / All-inclusive"><span><i data-icon="tree-palm" class="ico"></i>Beach</span></label>
+              <label class="choice"><input type="radio" name="tripType" value="Europe / Guided tour"><span><i data-icon="landmark" class="ico"></i>Europe tour</span></label>
+              <label class="choice"><input type="radio" name="tripType" value="Theme parks"><span><i data-icon="ferris-wheel" class="ico"></i>Theme parks</span></label>
+              <label class="choice"><input type="radio" name="tripType" value="Group trip from WNY/CNY"><span><i data-icon="bus" class="ico"></i>Group trip</span></label>
+              <label class="choice"><input type="radio" name="tripType" value="Not sure yet"><span><i data-icon="compass" class="ico"></i>Surprise me</span></label>
             </div>
           </div>
 
@@ -85,12 +93,12 @@
             <div class="step-label">Step 2 of 5</div>
             <h3>Who's coming along?</h3>
             <div class="choices" data-required-group>
-              <label class="choice"><input type="radio" name="party" value="Solo"><span><span class="ico">🧳</span>Just me</span></label>
-              <label class="choice"><input type="radio" name="party" value="Couple"><span><span class="ico">💑</span>Couple</span></label>
-              <label class="choice"><input type="radio" name="party" value="Family with kids"><span><span class="ico">👨‍👩‍👧</span>Family</span></label>
-              <label class="choice"><input type="radio" name="party" value="Friends"><span><span class="ico">👯</span>Friends</span></label>
-              <label class="choice"><input type="radio" name="party" value="Celebration (honeymoon, anniversary, milestone)"><span><span class="ico">🥂</span>Celebration</span></label>
-              <label class="choice"><input type="radio" name="party" value="Large group (10+)"><span><span class="ico">👥</span>10+ people</span></label>
+              <label class="choice"><input type="radio" name="party" value="Solo"><span><i data-icon="luggage" class="ico"></i>Just me</span></label>
+              <label class="choice"><input type="radio" name="party" value="Couple"><span><i data-icon="heart" class="ico"></i>Couple</span></label>
+              <label class="choice"><input type="radio" name="party" value="Family with kids"><span><i data-icon="users" class="ico"></i>Family</span></label>
+              <label class="choice"><input type="radio" name="party" value="Friends"><span><i data-icon="users" class="ico"></i>Friends</span></label>
+              <label class="choice"><input type="radio" name="party" value="Celebration (honeymoon, anniversary, milestone)"><span><i data-icon="wine" class="ico"></i>Celebration</span></label>
+              <label class="choice"><input type="radio" name="party" value="Large group (10+)"><span><i data-icon="flag" class="ico"></i>10+ people</span></label>
             </div>
           </div>
 
@@ -98,12 +106,12 @@
             <div class="step-label">Step 3 of 5</div>
             <h3>When are you thinking?</h3>
             <div class="choices" data-required-group>
-              <label class="choice"><input type="radio" name="when" value="Next 3 months"><span><span class="ico">⚡</span>Next 3 months</span></label>
-              <label class="choice"><input type="radio" name="when" value="3–6 months"><span><span class="ico">📅</span>3–6 months</span></label>
-              <label class="choice"><input type="radio" name="when" value="6–12 months"><span><span class="ico">🗓️</span>6–12 months</span></label>
-              <label class="choice"><input type="radio" name="when" value="February break"><span><span class="ico">❄️</span>Feb break</span></label>
-              <label class="choice"><input type="radio" name="when" value="Summer"><span><span class="ico">☀️</span>Summer</span></label>
-              <label class="choice"><input type="radio" name="when" value="Flexible"><span><span class="ico">🤷</span>Flexible</span></label>
+              <label class="choice"><input type="radio" name="when" value="Next 3 months"><span><i data-icon="zap" class="ico"></i>Next 3 months</span></label>
+              <label class="choice"><input type="radio" name="when" value="3–6 months"><span><i data-icon="calendar" class="ico"></i>3–6 months</span></label>
+              <label class="choice"><input type="radio" name="when" value="6–12 months"><span><i data-icon="calendar-days" class="ico"></i>6–12 months</span></label>
+              <label class="choice"><input type="radio" name="when" value="February break"><span><i data-icon="snowflake" class="ico"></i>Feb break</span></label>
+              <label class="choice"><input type="radio" name="when" value="Summer"><span><i data-icon="sun" class="ico"></i>Summer</span></label>
+              <label class="choice"><input type="radio" name="when" value="Flexible"><span><i data-icon="shuffle" class="ico"></i>Flexible</span></label>
             </div>
           </div>
 
@@ -114,12 +122,12 @@
             <input type="range" name="budget" id="budget" min="500" max="15000" step="250" value="3000" aria-label="Budget per person">
             <div style="display:flex;justify-content:space-between" class="small muted"><span>$500</span><span>$15,000+</span></div>
             <p class="small muted" style="margin-top:12px">Rough is fine. It helps your advisor find the best value.</p>
-            <div class="wizard-nav"><span></span><button type="button" class="btn btn-primary" data-next>Next →</button></div>
+            <div class="wizard-nav"><span></span><button type="button" class="btn btn-primary" data-next>Next</button></div>
           </div>
 
           <div class="wizard-step" data-step="4">
             <div class="step-label">Last step!</div>
-            <div class="agent"><div class="avatar">✈</div><div><strong id="agent-line">Great choice!</strong><div class="small muted">Where should your advisor send ideas?</div></div></div>
+            <div class="agent"><div class="avatar"><i data-icon="plane"></i></div><div><strong id="agent-line">Great choice!</strong><div class="small muted">Where should your advisor send ideas?</div></div></div>
             <div class="field-row">
               <div class="field"><label for="t-name">Name</label><input type="text" id="t-name" name="name" autocomplete="name" required><div class="error-msg">Required</div></div>
               <div class="field"><label for="t-zip">ZIP</label><input type="text" id="t-zip" name="zip" inputmode="numeric" maxlength="5" required data-zip><div class="error-msg">5-digit ZIP</div></div>
@@ -131,9 +139,9 @@
             <div class="field">
               <label>Best way to reach you</label>
               <div class="choices" style="grid-template-columns:repeat(3,1fr)">
-                <label class="choice"><input type="radio" name="contactPref" value="Call" checked><span style="min-height:48px">📞 Call</span></label>
-                <label class="choice"><input type="radio" name="contactPref" value="Text"><span style="min-height:48px">💬 Text</span></label>
-                <label class="choice"><input type="radio" name="contactPref" value="Email"><span style="min-height:48px">✉️ Email</span></label>
+                <label class="choice"><input type="radio" name="contactPref" value="Call" checked><span style="min-height:48px"><i data-icon="phone" class="i-inline"></i> Call</span></label>
+                <label class="choice"><input type="radio" name="contactPref" value="Text"><span style="min-height:48px"><i data-icon="message-square" class="i-inline"></i> Text</span></label>
+                <label class="choice"><input type="radio" name="contactPref" value="Email"><span style="min-height:48px"><i data-icon="mail" class="i-inline"></i> Email</span></label>
               </div>
             </div>
             <label style="display:flex;gap:8px;font-weight:500;font-size:.9rem"><input type="checkbox" name="isMember" value="yes"> I'm a AAA member</label>
@@ -143,15 +151,15 @@
 
           <div class="wizard-step" data-step="5">
             <div class="done-box">
-              <div class="check">✓</div>
+              <div class="done-check"><i data-icon="check"></i></div>
               <h3>You're on your way, <span id="t-first"></span>!</h3>
               <p class="muted">A AAA travel advisor will reach out within 1 business day with ideas for your <strong id="t-type"></strong>.</p>
-              <div class="highlight-box" id="t-upsell" style="text-align:left">Not a member yet? Members get exclusive savings and perks on many cruises, tours and hotels. <a href="membership.html">See membership →</a></div>
+              <div class="highlight-box" id="t-upsell" style="text-align:left">Not a member yet? Members get exclusive savings and perks on many cruises, tours and hotels. <a href="membership.html">See membership <i data-icon="chevrons-right" class="i-inline"></i></a></div>
             </div>
           </div>
 
           <div class="wizard-nav" id="trip-nav" style="justify-content:flex-start">
-            <button type="button" class="btn btn-ghost btn-sm" id="trip-back" style="visibility:hidden">← Back</button>
+            <button type="button" class="btn btn-ghost btn-sm btn-back" id="trip-back" style="visibility:hidden">Back</button>
           </div>
         </form>
       </div>
@@ -164,6 +172,7 @@
       <div class="center" style="margin-bottom:36px">
         <span class="eyebrow">Need inspiration?</span>
         <h2>Trips our members are booking now</h2>
+        <div class="gradient-rule"></div>
         <p class="lead">Tap one and we'll pre-fill your request. Your advisor handles the rest.</p>
       </div>
       <div class="inspo" id="inspo"></div>
@@ -176,16 +185,17 @@
       <div class="center" style="margin-bottom:32px">
         <span class="eyebrow">Why book with AAA?</span>
         <h2>Same trip. More perks. Someone in your corner.</h2>
+        <div class="gradient-rule"></div>
       </div>
       <table class="compare-table">
         <thead><tr><th></th><th>AAA Travel</th><th>Booking site</th></tr></thead>
         <tbody>
           <tr><td>Planning fee</td><td class="yes">$0</td><td class="yes">$0</td></tr>
-          <tr><td>Member-exclusive perks &amp; savings on select cruises, tours &amp; hotels</td><td class="yes">✓</td><td class="no">—</td></tr>
-          <tr><td>A real person to call when a flight is cancelled</td><td class="yes">✓</td><td class="no">Chatbot</td></tr>
-          <tr><td>Escorted group trips departing from Western &amp; Central NY</td><td class="yes">✓</td><td class="no">—</td></tr>
-          <tr><td>Travel insurance, passports photos, International Driving Permits under one roof</td><td class="yes">✓</td><td class="no">—</td></tr>
-          <tr><td>Advice from someone who's actually been there</td><td class="yes">✓</td><td class="no">Reviews</td></tr>
+          <tr><td>Member-exclusive perks &amp; savings on select cruises, tours &amp; hotels</td><td class="yes"><i data-icon="check"></i></td><td class="no">—</td></tr>
+          <tr><td>A real person to call when a flight is cancelled</td><td class="yes"><i data-icon="check"></i></td><td class="no">Chatbot</td></tr>
+          <tr><td>Escorted group trips departing from Western &amp; Central NY</td><td class="yes"><i data-icon="check"></i></td><td class="no">—</td></tr>
+          <tr><td>Travel insurance, passports photos, International Driving Permits under one roof</td><td class="yes"><i data-icon="check"></i></td><td class="no">—</td></tr>
+          <tr><td>Advice from someone who's actually been there</td><td class="yes"><i data-icon="check"></i></td><td class="no">Reviews</td></tr>
         </tbody>
       </table>
       <div class="center" style="margin-top:28px"><a href="#builder" class="btn btn-primary btn-lg" data-track="travel_compare_cta">Start my free trip plan</a></div>
@@ -194,16 +204,16 @@
 
   <section class="section">
     <div class="container">
-      <h2 class="center" style="margin-bottom:44px">How it works</h2>
+      <div class="center" style="margin-bottom:48px"><span class="eyebrow">How it works</span><h2>Three steps to your next getaway</h2><div class="gradient-rule"></div></div>
       <div class="grid grid-3 how">
         <div class="card"><h3>Tell us the dream</h3><p class="muted">60 seconds, 4 questions. No account, no commitment.</p></div>
         <div class="card"><h3>Get a custom plan</h3><p class="muted">A local advisor compares options and sends ideas within 1 business day.</p></div>
         <div class="card"><h3>Pack your bags</h3><p class="muted">We book everything and stay on call while you travel.</p></div>
       </div>
       <div class="grid grid-3" style="margin-top:36px">
-        <blockquote class="card quote"><div class="stars">★★★★★</div>"Our agent rebooked our whole Alaska cruise connection when our flight out of BUF was cancelled. I didn't make a single call."<footer>— Traveler, Amherst</footer></blockquote>
-        <blockquote class="card quote"><div class="stars">★★★★★</div>"The group trip from Rochester was the easiest vacation I've ever taken. They handled everything."<footer>— Traveler, Greece, NY</footer></blockquote>
-        <blockquote class="card quote"><div class="stars">★★★★★</div>"Honeymoon in Italy, planned around our budget, with upgrades we never would've found."<footer>— Traveler, Liverpool</footer></blockquote>
+        <blockquote class="card quote"><div class="stars" data-stars></div>"Our agent rebooked our whole Alaska cruise connection when our flight out of BUF was cancelled. I didn't make a single call."<footer>Traveler, Amherst</footer></blockquote>
+        <blockquote class="card quote"><div class="stars" data-stars></div>"The group trip from Rochester was the easiest vacation I've ever taken. They handled everything."<footer>Traveler, Greece, NY</footer></blockquote>
+        <blockquote class="card quote"><div class="stars" data-stars></div>"Honeymoon in Italy, planned around our budget, with upgrades we never would've found."<footer>Traveler, Liverpool</footer></blockquote>
       </div>
     </div>
   </section>
@@ -235,21 +245,20 @@
     let step = 0;
 
     const TRIPS = [
-      { art: "🛳️", bg: "#dbeafe", title: "Caribbean cruise", type: "Cruise", text: "Kid-friendly ships, adults-only escapes, and onboard credit with select lines.", perks: ["Member perks", "Family"] },
-      { art: "🏔️", bg: "#e0f2fe", title: "Alaska by sea & land", type: "Cruise", text: "Glaciers, Denali and wildlife. Book early for the best cabins.", perks: ["Bucket list", "Summer"] },
-      { art: "🏰", bg: "#fef3c7", title: "Guided Europe tour", type: "Europe / Guided tour", text: "Italy, Ireland, or the Rhine. Hotels, guides and most meals handled.", perks: ["Escorted", "Member savings"] },
-      { art: "🏝️", bg: "#dcfce7", title: "All-inclusive escape", type: "Beach / All-inclusive", text: "Mexico, Punta Cana or Jamaica, timed for February break.", perks: ["Feb break", "Couples"] },
-      { art: "🎢", bg: "#fce7f3", title: "Theme park vacation", type: "Theme parks", text: "Tickets, hotels and dining plans bundled by people who know the parks.", perks: ["Family", "Packages"] },
-      { art: "🚌", bg: "#ede9fe", title: "Group trips from home", type: "Group trip from WNY/CNY", text: "Escorted trips leaving from Buffalo, Rochester and Syracuse. Just show up.", perks: ["Local departure", "Escorted"] },
+      { img: 15952055, alt: "Cruise ship at sea at sunset", title: "Caribbean cruise", type: "Cruise", text: "Kid-friendly ships, adults-only escapes, and onboard credit with select lines.", perks: ["Member perks", "Family"] },
+      { img: 35637, alt: "Snow-covered mountains above a calm bay", title: "Alaska by sea & land", type: "Cruise", text: "Glaciers, Denali and wildlife. Book early for the best cabins.", perks: ["Bucket list", "Summer"] },
+      { img: 33304615, alt: "Couple looking out over the Amalfi Coast", title: "Guided Europe tour", type: "Europe / Guided tour", text: "Italy, Ireland, or the Rhine. Hotels, guides and most meals handled.", perks: ["Escorted", "Member savings"] },
+      { img: 4604439, alt: "Tropical beach with palm trees and turquoise water", title: "All-inclusive escape", type: "Beach / All-inclusive", text: "Mexico, Punta Cana or Jamaica, timed for February break.", perks: ["Feb break", "Couples"] },
+      { img: 749064, alt: "Riders on a white and yellow roller coaster", title: "Theme park vacation", type: "Theme parks", text: "Tickets, hotels and dining plans bundled by people who know the parks.", perks: ["Family", "Packages"] },
+      { img: 8637983, alt: "Group of smiling older friends standing together", title: "Group trips from home", type: "Group trip from WNY/CNY", text: "Escorted trips leaving from Buffalo, Rochester and Syracuse. Just show up.", perks: ["Local departure", "Escorted"] },
     ];
     $("#inspo").innerHTML = TRIPS.map((t, i) => `
       <article class="trip">
-        <div class="art" style="background:${t.bg}" aria-hidden="true">${t.art}</div>
+        <div class="photo"><img src="${AAA.photo(t.img, 900)}" alt="${t.alt}" loading="lazy" onerror="this.remove()"><span class="badge">${t.perks[0]}</span></div>
         <div class="body">
           <h3>${t.title}</h3>
-          <div class="perks">${t.perks.map((p) => `<span class="badge">${p}</span>`).join("")}</div>
           <p>${t.text}</p>
-          <button type="button" class="btn btn-ghost btn-block" data-trip="${i}" data-track="inspo_${i}">Plan this trip →</button>
+          <button type="button" class="btn btn-ghost btn-block" data-trip="${i}" data-track="inspo_${i}">Plan this trip</button>
         </div>
       </article>`).join("");
     $("#inspo").addEventListener("click", (e) => {

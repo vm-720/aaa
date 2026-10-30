@@ -88,6 +88,37 @@ window.AAA = (function () {
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
+  // Inline SVG for a Lucide icon name (see assets/icons.js).
+  function icon(name, cls = "") {
+    const body = (window.AAA_ICONS || {})[name];
+    if (!body) return "";
+    return `<svg class="icon ${cls}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${body}</svg>`;
+  }
+
+  // Royalty-free photo from Pexels (free to use, no attribution required).
+  const photo = (id, w = 1600) =>
+    `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=${w}`;
+
+  // Replace <i data-icon="name"> placeholders and <div data-stars> with SVG.
+  function hydrate(root = document) {
+    $$("i[data-icon]", root).forEach((el) => {
+      el.outerHTML = el.className ? `<span class="${el.className}">${icon(el.dataset.icon)}</span>` : icon(el.dataset.icon);
+    });
+    $$("[data-stars]", root).forEach((el) => {
+      el.removeAttribute("data-stars");
+      el.setAttribute("aria-label", "5 out of 5 stars");
+      el.innerHTML = icon("star").repeat(5);
+    });
+  }
+  new MutationObserver((muts) => {
+    if (muts.some((m) => m.addedNodes.length)) hydrate();
+  }).observe(document.documentElement, { childList: true, subtree: true });
+
+  const LOGO = `<svg viewBox="0 0 120 60" role="img" aria-label="AAA Western and Central New York">
+      <ellipse cx="58" cy="30" rx="52" ry="24" fill="none" stroke="#fff" stroke-width="4" transform="rotate(-10 58 30)"/>
+      <text x="58" y="41" text-anchor="middle" fill="#fff" font-family="Montserrat, Arial, sans-serif" font-weight="800" font-style="italic" font-size="30" letter-spacing="-1">AAA</text>
+    </svg>`;
+
   function header(active) {
     const links = [
       ["membership.html", "Membership"],
@@ -98,17 +129,23 @@ window.AAA = (function () {
       .map(([href, label]) => `<a href="${href}"${label === active ? ' aria-current="page"' : ""}>${label}</a>`)
       .join("");
     const phone = active === "Insurance" ? CONFIG.phones.insurance : CONFIG.phones.membership;
+    const tel = `<a class="phone" href="tel:${phone.replace(/\D/g, "")}">${icon("phone")} ${phone}</a>`;
     return `
       <header class="site-header">
-        <div class="container">
-          <a class="logo" href="index.html"><span class="logo-mark">AAA</span><span class="logo-text">Western &amp;<br>Central New York</span></a>
-          <nav class="nav" aria-label="Primary">${nav}</nav>
-          <div class="header-actions">
-            <a class="header-phone" href="tel:${phone.replace(/\D/g, "")}">📞 ${phone}</a>
-            ${active === "Join" ? "" : '<a class="btn btn-primary btn-sm" href="join.html" data-track="header_join">Join AAA</a>'}
+        <div class="hdr-bar">
+          <div class="hdr-group">
+            <button type="button" class="hdr-btn" id="menu-btn" aria-expanded="false" aria-controls="hdr-nav">${icon("menu")}Menu</button>
+            <a class="hdr-btn" href="https://westerncentralnyaaa.com/membership/my-aaa">${icon("circle-user")}Account</a>
+          </div>
+          <a class="logo" href="index.html">${LOGO}</a>
+          <div class="hdr-group right">
+            ${active === "Join" ? "" : `<a class="hdr-btn join" href="join.html" data-track="header_join">${icon("circle-plus")}Join</a>`}
+            <a class="hdr-btn" href="https://westerncentralnyaaa.com/membership/my-aaa">${icon("rotate-ccw")}Renew</a>
           </div>
         </div>
-      </header>`;
+        <nav class="hdr-nav" id="hdr-nav" aria-label="Menu"><div class="container">${nav}${tel}</div></nav>
+      </header>
+      <nav class="subnav" aria-label="Primary"><div class="container">${nav}${tel}</div></nav>`;
   }
 
   function footer() {
@@ -117,15 +154,22 @@ window.AAA = (function () {
         <div class="container">
           <div><strong style="color:#fff">AAA Western &amp; Central New York</strong><br>Serving members since 1900.</div>
           <div>Membership help: <a href="tel:8008362582">${CONFIG.phones.membership}</a><br>Insurance quotes: <a href="tel:8886717044">${CONFIG.phones.insurance}</a></div>
-          <div class="small" style="max-width:420px">Insurance is not included in AAA membership dues; separate costs apply. Insurance sold through AAA Members Insurance Agency of Western &amp; Central New York, Inc.</div>
+          <div class="small" style="max-width:420px">Insurance is not included in AAA membership dues; separate costs apply. Insurance sold through AAA Members Insurance Agency of Western &amp; Central New York, Inc.<br>Photos: Pexels (royalty-free).</div>
         </div>
       </footer>`;
   }
 
   function mountChrome(active) {
     document.body.insertAdjacentHTML("afterbegin", header(active));
+    $("#menu-btn").addEventListener("click", (e) => {
+      const open = $("#hdr-nav").classList.toggle("open");
+      e.currentTarget.setAttribute("aria-expanded", open);
+    });
     // Footer must wait for the page body, since this runs from the top of <body>.
-    const addFooter = () => document.body.insertAdjacentHTML("beforeend", footer() + '<div class="toast" role="status" aria-live="polite"></div>');
+    const addFooter = () => {
+      document.body.insertAdjacentHTML("beforeend", footer() + '<div class="toast" role="status" aria-live="polite"></div>');
+      hydrate();
+    };
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", addFooter);
     else addFooter();
   }
@@ -229,5 +273,5 @@ window.AAA = (function () {
     return data;
   }
 
-  return { CONFIG, getPlanPrice, money, $, $$, mountChrome, toast, stickyAfter, track, submitLead, validate, persist, formData };
+  return { CONFIG, getPlanPrice, icon, photo, hydrate, money, $, $$, mountChrome, toast, stickyAfter, track, submitLead, validate, persist, formData };
 })();

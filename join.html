@@ -5,40 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Join AAA | Covered in About 2 Minutes</title>
   <meta name="description" content="Join AAA Western & Central New York online in about 2 minutes. Pick a plan, add your household, and get your digital card instantly.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600;0,700;0,800;1,800&family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
   <style>
     body { background: var(--bg-alt); }
     .join-wrap { display: grid; grid-template-columns: 1fr 380px; gap: 28px; padding: 32px 0 80px; align-items: start; }
     @media (max-width: 960px) { .join-wrap { grid-template-columns: 1fr; } .summary-col { order: -1; } }
-    .join-head { padding-top: 28px; }
-    .join-head h1 { font-size: clamp(1.7rem, 3.5vw, 2.4rem); margin-bottom: 6px; }
-    .stepper-head { display: flex; gap: 6px; margin: 18px 0 0; flex-wrap: wrap; }
-    .stepper-head span { font-size: .85rem; font-weight: 700; color: var(--muted); padding: 6px 12px; border-radius: 999px; background: #fff; border: 1px solid var(--line); }
-    .stepper-head span.on { background: var(--blue); color: #fff; border-color: var(--blue); }
-    .stepper-head span.done { color: var(--green); border-color: var(--green); }
+    /* Compact photo banner keeps brand warmth without pushing the form down */
+    .join-banner { position: relative; background: var(--navy); color: #fff; overflow: hidden; }
+    .join-banner .bg { position: absolute; inset: 0; }
+    .join-banner .bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+    .join-banner .bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(4,33,74,.95) 0%, rgba(8,49,99,.8) 55%, rgba(8,49,99,.3) 100%); }
+    .join-head { position: relative; padding: 36px 0 32px; }
+    .join-head h1 { color: #fff; font-size: clamp(1.7rem, 3.5vw, 2.5rem); margin-bottom: 6px; }
+    .join-head p { color: rgba(255,255,255,.88); }
+    .stepper-head { display: flex; gap: 8px; margin: 20px 0 0; flex-wrap: wrap; }
+    .stepper-head span { font-family: var(--font-head); font-size: .74rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.8); padding: 7px 14px; border-radius: 999px; border: 1.5px solid rgba(255,255,255,.35); }
+    .stepper-head span.on { background: #fff; color: var(--navy); border-color: #fff; }
+    .stepper-head span.done { color: #8fe0b0; border-color: #8fe0b0; }
 
     .plan-pick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
     @media (max-width: 640px) { .plan-pick { grid-template-columns: 1fr; } }
-    .plan-pick .choice > span { align-items: flex-start; text-align: left; min-height: 120px; padding: 16px; }
-    .plan-pick .choice > span b { font-size: 1.15rem; }
-    .plan-pick .choice > span em { font-style: normal; font-weight: 800; color: var(--ink); font-size: 1.3rem; }
-    .plan-pick .tag { font-size: .7rem; font-weight: 800; color: #fff; background: var(--blue); padding: 2px 8px; border-radius: 999px; text-transform: uppercase; }
+    /* Tier colors match the live join page */
+    .plan-pick .choice > span { align-items: flex-start; text-align: left; min-height: 130px; padding: 18px; border-width: 2px; }
+    .plan-pick .choice > span b { font-family: var(--font-head); font-size: 1.15rem; font-weight: 800; text-transform: uppercase; letter-spacing: .03em; }
+    .plan-pick .choice > span em { font-family: var(--font-head); font-style: normal; font-weight: 800; font-size: 1.5rem; margin-top: auto; }
+    .plan-pick .basic > span { background: var(--basic-bg); } .plan-pick .basic em { color: #0d5ca8; }
+    .plan-pick .plus > span { background: var(--gold-bg); } .plan-pick .plus em { color: var(--gold-ink); }
+    .plan-pick .premier > span { background: var(--premier-bg); } .plan-pick .premier em { color: #444; }
+    .plan-pick .choice input:checked + span { border-color: var(--red); box-shadow: 0 0 0 2px var(--red); background-image: none; }
+    .plan-pick .tag { font-family: var(--font-label); font-size: .7rem; font-weight: 700; color: var(--gold-ink); background: var(--gold-tag); padding: 2px 8px; border-radius: 5px; text-transform: uppercase; letter-spacing: .08em; }
 
     .assoc { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; margin-bottom: 10px; }
     @media (max-width: 560px) { .assoc { grid-template-columns: 1fr 1fr; } .assoc .rm { grid-column: span 2; } }
     .assoc .rm { border: none; background: none; color: var(--red); font-weight: 700; cursor: pointer; padding: 12px 6px; }
-    .add-assoc { border: 2px dashed var(--line); background: #fff; border-radius: 12px; width: 100%; padding: 14px; font: inherit; font-weight: 700; color: var(--blue); cursor: pointer; }
-    .add-assoc:hover { border-color: var(--blue); background: var(--blue-light); }
+    .add-assoc { border: 2px dashed var(--line); background: #fff; border-radius: 12px; width: 100%; padding: 14px; font: inherit; font-weight: 700; color: var(--navy); cursor: pointer; }
+    .add-assoc:hover { border-color: var(--navy); background: var(--navy-light); }
 
-    .summary { position: sticky; top: 84px; }
+    .summary { position: sticky; top: 96px; }
     .sum-row { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 10px; font-size: .95rem; }
     .sum-total { font-size: 1.3rem; font-weight: 800; }
     .guarantee { display: flex; gap: 12px; align-items: flex-start; font-size: .88rem; color: var(--muted); margin-top: 16px; }
-    .guarantee .ico { font-size: 1.4rem; }
+    .guarantee .ico { color: var(--navy); display: inline-flex; }
+    .summary-photo { height: 150px; border-radius: 14px; margin-bottom: 18px; }
+    .summary-photo .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 30px 14px 12px; background: linear-gradient(transparent, rgba(4,33,74,.9)); color: #fff; font-family: var(--font-head); font-weight: 700; font-size: .95rem; }
     .help-card { margin-top: 16px; text-align: center; }
 
     .toggle-line { display: flex; gap: 10px; align-items: flex-start; padding: 14px; border: 1.5px solid var(--line); border-radius: 12px; cursor: pointer; margin-bottom: 12px; background: #fff; }
-    .toggle-line input { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--blue); }
+    .toggle-line input { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--navy); }
     .toggle-line strong { display: block; }
 
     .billing-pick { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -46,8 +62,8 @@
     .save-tag { color: var(--green); font-size: .8rem; font-weight: 800; }
 
     .success { text-align: center; padding: 20px 0; }
-    .success .check { width: 84px; height: 84px; border-radius: 50%; background: var(--green-light); color: var(--green); font-size: 2.6rem; display: grid; place-items: center; margin: 0 auto 18px; }
-    .member-card { max-width: 360px; margin: 24px auto; background: linear-gradient(135deg, var(--blue), var(--blue-dark)); color: #fff; border-radius: 16px; padding: 22px; text-align: left; box-shadow: var(--shadow); }
+
+    .member-card { max-width: 360px; margin: 24px auto; background: linear-gradient(135deg, var(--navy), var(--navy-dark)); border-bottom: 6px solid; border-image: var(--brand-gradient) 1; color: #fff; border-radius: 16px; padding: 22px; text-align: left; box-shadow: var(--shadow); }
     .member-card .num { font-family: ui-monospace, monospace; letter-spacing: .1em; margin-top: 28px; font-size: 1.05rem; }
     .lock { font-size: .82rem; color: var(--muted); display: flex; gap: 6px; align-items: center; justify-content: center; margin-top: 10px; }
     .summary-toggle { display: none; }
@@ -59,14 +75,18 @@
   </style>
 </head>
 <body>
+  <script src="assets/icons.js"></script>
   <script src="assets/app.js"></script>
   <script>AAA.mountChrome("Join");</script>
 
-  <div class="container join-head">
-    <h1>Join AAA. Be covered in about 2 minutes.</h1>
-    <p class="muted" style="margin:0">Your digital membership card is ready the moment you finish.</p>
-    <div class="stepper-head" id="stepper-head">
-      <span class="on">1 · Plan</span><span>2 · Your info</span><span>3 · Payment</span>
+  <div class="join-banner">
+    <div class="bg"><img src="https://images.pexels.com/photos/4173086/pexels-photo-4173086.jpeg?auto=compress&cs=tinysrgb&w=2000" alt="Driver on the phone beside her car on a country road" onerror="this.remove()"></div>
+    <div class="container join-head">
+      <h1>Join AAA. Be covered in about 2 minutes.</h1>
+      <p style="margin:0">Your digital membership card is ready the moment you finish.</p>
+      <div class="stepper-head" id="stepper-head">
+        <span class="on">1 · Plan</span><span>2 · Your info</span><span>3 · Payment</span>
+      </div>
     </div>
   </div>
 
@@ -93,13 +113,13 @@
           </label>
           <label class="toggle-line">
             <input type="checkbox" name="gift" id="gift" value="yes">
-            <span><strong>🎁 This is a gift</strong><span class="small muted">Perfect for new drivers, college students and parents. We'll deliver it on the date you choose.</span></span>
+            <span><strong><i data-icon="gift" class="i-inline"></i> This is a gift</strong><span class="small muted">Perfect for new drivers, college students and parents. We'll deliver it on the date you choose.</span></span>
           </label>
           <label class="toggle-line" id="need-line">
             <input type="checkbox" name="needNow" id="needNow" value="yes">
             <span><strong>I need roadside help right now</strong><span class="small muted">We'll get you covered first. A one-time service fee applies, and service at enrollment is provided at the Basic level.</span></span>
           </label>
-          <div class="wizard-nav"><span></span><button type="button" class="btn btn-primary btn-lg" data-next>Continue →</button></div>
+          <div class="wizard-nav"><span></span><button type="button" class="btn btn-primary btn-lg" data-next>Continue</button></div>
         </div>
 
         <!-- STEP 2: member + household -->
@@ -137,7 +157,7 @@
           <div id="assoc-list"></div>
           <button type="button" class="add-assoc" id="add-assoc">+ Add a household member (<span id="assoc-price">$45</span>/yr)</button>
 
-          <div class="wizard-nav"><button type="button" class="btn btn-ghost" data-back>← Back</button><button type="button" class="btn btn-primary btn-lg" data-next>Continue to payment →</button></div>
+          <div class="wizard-nav"><button type="button" class="btn btn-ghost btn-back" data-back>Back</button><button type="button" class="btn btn-primary btn-lg" data-next>Continue to payment</button></div>
         </div>
 
         <!-- STEP 3: billing + payment -->
@@ -163,25 +183,25 @@
           </label>
           <div class="field" style="margin:0"><div class="error-msg" id="terms-err">Please accept the membership terms.</div></div>
 
-          <div class="wizard-nav"><button type="button" class="btn btn-ghost" data-back>← Back</button><button type="submit" class="btn btn-primary btn-lg" id="pay-btn">Join for $99</button></div>
-          <div class="lock">🔒 256-bit encrypted checkout</div>
+          <div class="wizard-nav"><button type="button" class="btn btn-ghost btn-back" data-back>Back</button><button type="submit" class="btn btn-primary btn-lg" id="pay-btn">Join for $99</button></div>
+          <div class="lock"><i data-icon="lock" class="i-inline"></i> 256-bit encrypted checkout</div>
         </div>
 
         <!-- SUCCESS -->
         <div class="wizard-step" data-step="3">
           <div class="success">
-            <div class="check">✓</div>
+            <div class="done-check"><i data-icon="check"></i></div>
             <h2 id="success-title">Welcome to AAA, <span id="welcome-name">friend</span>!</h2>
             <p class="lead" style="margin-inline:auto" id="success-lead">You're covered. Your digital card is below and on its way to your inbox.</p>
             <div class="member-card">
-              <div style="display:flex;justify-content:space-between"><strong style="font-style:italic;font-size:1.3rem">AAA</strong><span id="card-plan">PLUS</span></div>
+              <div style="display:flex;justify-content:space-between"><strong style="font-family:var(--font-head);font-style:italic;font-weight:800;font-size:1.4rem">AAA</strong><span id="card-plan">PLUS</span></div>
               <div class="num">620084 •••• •••• ••••</div>
               <div style="margin-top:8px;font-weight:700" id="card-name">MEMBER NAME</div>
             </div>
             <div class="grid grid-3" style="text-align:left;margin-top:24px">
-              <div class="card"><strong>📱 Get the app</strong><p class="small muted" style="margin:6px 0 0">Request roadside help with live tracking.</p></div>
-              <div class="card"><strong>📞 Save our number</strong><p class="small muted" style="margin:6px 0 0">Roadside help, 24/7.</p></div>
-              <div class="card"><strong>🛡️ Members save on insurance</strong><p class="small muted" style="margin:6px 0 0"><a href="insurance.html?from=join">Get a free quote →</a></p></div>
+              <div class="card"><div class="icon-circle" style="margin-bottom:10px"><i data-icon="smartphone"></i></div><strong>Get the app</strong><p class="small muted" style="margin:6px 0 0">Request roadside help with live tracking.</p></div>
+              <div class="card"><div class="icon-circle" style="margin-bottom:10px"><i data-icon="phone"></i></div><strong>Save our number</strong><p class="small muted" style="margin:6px 0 0">Roadside help, 24/7.</p></div>
+              <div class="card"><div class="icon-circle" style="margin-bottom:10px"><i data-icon="shield-check"></i></div><strong>Members save on insurance</strong><p class="small muted" style="margin:6px 0 0"><a href="insurance.html?from=join">Get a free quote <i data-icon="chevrons-right" class="i-inline"></i></a></p></div>
             </div>
           </div>
         </div>
@@ -193,20 +213,21 @@
       <div class="card card-elevated summary">
         <button type="button" class="summary-toggle" id="summary-toggle"><span>Your membership</span><span id="sum-total-mobile">$99</span></button>
         <div class="summary-body" id="summary-body">
+          <div class="photo summary-photo"><img src="https://images.pexels.com/photos/10061763/pexels-photo-10061763.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Tow truck operator loading a vehicle" loading="lazy" onerror="this.remove()"><div class="cap">4 free tows a year, 24/7</div></div>
           <h3 style="margin-bottom:14px">Your membership</h3>
           <div id="sum-lines"></div>
           <div class="divider"></div>
           <div class="sum-row sum-total"><span>Due today</span><span id="sum-total">$99</span></div>
           <div class="small muted" id="sum-sub"></div>
-          <div class="guarantee"><span class="ico">⚡</span><span>Covered immediately after checkout.</span></div>
-          <div class="guarantee"><span class="ico">🔁</span><span>Upgrade, add members, or change payment any time.</span></div>
-          <div class="guarantee"><span class="ico">🏠</span><span>Your local, member-owned club since 1900.</span></div>
+          <div class="guarantee"><i data-icon="zap" class="ico"></i><span>Covered immediately after checkout.</span></div>
+          <div class="guarantee"><i data-icon="refresh-cw" class="ico"></i><span>Upgrade, add members, or change payment any time.</span></div>
+          <div class="guarantee"><i data-icon="house" class="ico"></i><span>Your local, member-owned club since 1900.</span></div>
         </div>
       </div>
       <div class="card help-card">
         <strong>Prefer to join by phone?</strong>
         <p class="small muted" style="margin:4px 0 10px">A local team member can sign you up in minutes.</p>
-        <a class="btn btn-ghost btn-block" href="tel:8008362582" data-track="join_phone">📞 (800) 836-2582</a>
+        <a class="btn btn-ghost btn-block no-chev" href="tel:8008362582" data-track="join_phone"><i data-icon="phone" class="i-inline"></i> (800) 836-2582</a>
       </div>
     </aside>
   </div>
@@ -222,9 +243,9 @@
 
     // Plan tiles
     $("#plan-pick").innerHTML = ["basic", "plus", "premier"].map((k) => `
-      <label class="choice"><input type="radio" name="plan" value="${k}"><span>
-        ${plans[k].popular ? '<span class="tag">Most popular</span>' : ""}
-        <b>${plans[k].name}</b><small>${plans[k].tow}</small><em>${money(plans[k].price)}<small>/yr</small></em>
+      <label class="choice ${k}"><input type="radio" name="plan" value="${k}"><span>
+        ${plans[k].popular ? '<span class="tag">Best value</span>' : ""}
+        <b>${plans[k].name}&reg;</b><small>${plans[k].tow}</small><em>${money(plans[k].price)}<small>/yr</small></em>
       </span></label>`).join("");
 
     AAA.persist(form, "aaa_join_draft");

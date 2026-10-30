@@ -95,6 +95,13 @@ Source: westerncentralnyaaa.com (AAA Western & Central New York). The live site 
 
 ---
 
+## Visual system (round 2)
+- **Brand match:** navy header with labeled Menu / Account / Join / Renew buttons, red primary buttons, red-navy-sky gradient accents and outline pills, and gold "Best value" tier styling, all taken from the live join page.
+- **Fonts:** Montserrat (headlines and letter-spaced uppercase buttons, a close free match to the brand's geometric sans), Roboto (body) and Roboto Condensed (labels), from Google Fonts.
+- **Photography:** royalty-free photos from Pexels (free for commercial use, no attribution required), linked directly from images.pexels.com. Every image sits on a navy gradient fallback, so a failed load never leaves a broken layout.
+- **No emojis:** every icon is an inline SVG from Lucide (ISC license) in `assets/icons.js`.
+- Membership uses the live site's photo-with-overlapping-card hero, but the card now carries the $388 vs $0 proof point and two clear CTAs.
+
 ## Cross-page system
 - Pages link into each other with intent (calculator → join?plan, join success → insurance, travel/insurance success → membership for non-members).
 - Every CTA carries `data-track` and pushes to `dataLayer`. Step and completion events (`join_step`, `finder_complete`, `lead_submit`, and so on) are ready for funnel reporting.
