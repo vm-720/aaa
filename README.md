@@ -14,3 +14,5 @@ Review, goals and rationale: [`docs/REVIEW.md`](docs/REVIEW.md)
 Run locally: open `index.html`, or `python3 -m http.server` and visit http://localhost:8000.
 
 Shared config (phones, endpoints, **placeholder prices**) lives in `assets/app.js`.
+
+**Single-file previews:** `python3 scripts/build-preview.py` writes self-contained copies of each page to `preview/`, which you can open anywhere (email, phone, chat apps) without the `assets/` folder.
